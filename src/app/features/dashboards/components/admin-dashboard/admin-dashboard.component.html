@@ -1,0 +1,158 @@
+<div class="dashboard-wrapper">
+  <div class="dashboard-header">
+    <h2>
+    <mat-icon class="dashboard-icon">dashboard</mat-icon>
+    Admin Dashboard
+    </h2>
+      <div class="filter-section">
+    <mat-form-field appearance="outline">
+      <mat-label>From Date</mat-label>
+      <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>To Date</mat-label>
+      <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button class="custom-filter-btn">
+    <mat-icon>filter_alt</mat-icon>
+    Apply Filter
+    </button>
+  </div>
+    <!-- <div class="date-filters">
+      <mat-form-field appearance="outline" floatLabel="always" >
+        <mat-label>District</mat-label>
+        <mat-select>
+          <mat-option value="guntur">Guntur</mat-option>
+          <mat-option value="krishna">Krishna</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>City</mat-label>
+        <mat-select>
+          <mat-option value="city1">City 1</mat-option>
+          <mat-option value="city2">City 2</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Zone</mat-label>
+        <mat-select>
+          <mat-option value="zone1">Zone A</mat-option>
+          <mat-option value="zone2">Zone B</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>From</mat-label>
+        <input matInput [matDatepicker]="fromPicker">
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>To</mat-label>
+        <input matInput [matDatepicker]="toPicker">
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+      </mat-form-field>
+    </div> -->
+  </div>
+
+  <div class="dashboard-cards">
+    <div class="card">
+      <div class="label">Total Waste Collected</div>
+      <div class="value">15,231.89 kg</div>
+      <div class="subtext">+20.1% from last month</div>
+    </div>
+    <div class="card">
+      <div class="label">Active Schools</div>
+      <div class="value">125</div>
+      <div class="subtext">+10 since last month</div>
+    </div>
+    <div class="card">
+      <div class="label">Participating Students</div>
+      <div class="value">12,234</div>
+      <div class="subtext">+180.1% from last month</div>
+    </div>
+    <div class="card">
+      <div class="label">Top Performing Zone</div>
+      <div class="value">Zone B</div>
+      <div class="subtext">District A</div>
+    </div>
+  </div>
+
+  <div class="charts-section">
+    <canvas #lineChartCanvas></canvas>
+    <canvas #barChartCanvas></canvas>
+  </div>
+
+  <div class="tables">
+  <mat-card>
+    <h3>
+    <mat-icon class="section-icon">school</mat-icon>
+    School Leaderboard
+    </h3>
+    <table mat-table [dataSource]="schoolLeaderboard" class="mat-elevation-z2">
+      <ng-container matColumnDef="rank">
+        <th mat-header-cell *matHeaderCellDef>Rank</th>
+        <td mat-cell *matCellDef="let e">{{ e.rank }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef>School</th>
+        <td mat-cell *matCellDef="let e">{{ e.school }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="zone">
+        <th mat-header-cell *matHeaderCellDef>Zone</th>
+        <td mat-cell *matCellDef="let e">{{ e.zone }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="collected">
+        <th mat-header-cell *matHeaderCellDef>Collected (kg)</th>
+        <td mat-cell *matCellDef="let e">{{ e.collected }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="schoolDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: schoolDisplayedColumns"></tr>
+    </table>
+  </mat-card>
+
+  <mat-card>
+    <h3>
+    <mat-icon class="section-icon">emoji_events</mat-icon>
+    Student Leaderboard
+    </h3>
+    <table mat-table [dataSource]="studentLeaderboard" class="mat-elevation-z2">
+      <ng-container matColumnDef="rank">
+        <th mat-header-cell *matHeaderCellDef>Rank</th>
+        <td mat-cell *matCellDef="let e">{{ e.rank }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="student">
+        <th mat-header-cell *matHeaderCellDef>Student</th>
+        <td mat-cell *matCellDef="let e">{{ e.student }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef>School</th>
+        <td mat-cell *matCellDef="let e">{{ e.school }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="collected">
+        <th mat-header-cell *matHeaderCellDef>Collected (kg)</th>
+        <td mat-cell *matCellDef="let e">{{ e.collected }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="studentDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: studentDisplayedColumns"></tr>
+    </table>
+  </mat-card>
+</div>

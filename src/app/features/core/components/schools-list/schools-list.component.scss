@@ -1,0 +1,96 @@
+.school-list-container {
+  padding: 20px;
+  background-color: #fefee9;
+  border-radius: 10px;
+  color: #1b5e20;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    h2 {
+      margin: 0;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: #4e634e;
+    }
+
+    .add-btn {
+      background-color: #66bb6a;
+      color: white;
+      border-radius: 10px;
+
+      mat-icon {
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+    border-bottom: 4px solid #c8e6c9;
+ border-radius: 10px;
+
+    table {
+      width: 100%;
+      min-width: 600px;
+      border-spacing: 0;
+    }
+
+    th {
+      background: #e8f5e9;
+      color: #1b5e20;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 12px;
+    }
+
+    .zone-chip {
+      padding: 2px 10px;
+      background: #f0f0e0;
+      border-radius: 15px;
+      font-size: 13px;
+      color: #1b5e20;
+    }
+
+    .status-chip {
+      padding: 4px 12px;
+      border-radius: 20px;
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+      &.Active {
+        background: #4caf50;
+      }
+      &.Pending {
+        background: #8d8d8d;
+      }
+    }
+
+    .edit-link {
+      color: #2e7d32;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .school-list-container .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .school-list-container .add-btn {
+    width: 100%;
+  }
+}

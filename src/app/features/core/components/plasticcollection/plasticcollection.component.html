@@ -1,0 +1,57 @@
+<div class="collection-container">
+  <h2><mat-icon>recycling</mat-icon> Students - Plastic Collection Entry</h2>
+  <p>Select a class and date to log plastic collection weights for all students at once.</p>
+
+  <div class="filters-row">
+    <div class="filter-field">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Class</mat-label>
+        <mat-select>
+          <mat-option value="9A">9th A</mat-option>
+          <mat-option value="9B">9th B</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-field">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Date of Collection</mat-label>
+        <input matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="student-table">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Name</th>
+          <th>Roll No</th>
+          <th>Plastic Weight (kg)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students; index as i">
+          <td>{{ i + 1 }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.rollNo }}</td>
+          <td>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Enter weight" />
+            </mat-form-field>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="button-container">
+    <button mat-raised-button style="color: white;" class="save-button">
+      <mat-icon>save</mat-icon>
+      Save Collection
+    </button>
+  </div>
+</div>

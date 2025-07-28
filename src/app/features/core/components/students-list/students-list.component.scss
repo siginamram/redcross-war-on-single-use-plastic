@@ -1,0 +1,53 @@
+.students-container {
+  padding: 24px;
+  background-color: #fcfde9;
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    mat-icon.header-icon {
+      font-size: 24px;
+      color: #4caf50;
+    }
+
+    button {
+      margin-top: 10px;
+      background-color: #388e3c;
+      color: #fff;
+    }
+  }
+
+  .table-wrapper {
+    margin-top: 20px;
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      min-width: 600px;
+
+      th, td {
+        padding: 12px;
+      }
+
+      .zone-badge {
+        background-color: #e0e0e0;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #333;
+      }
+    }
+  }
+}

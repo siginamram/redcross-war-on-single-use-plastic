@@ -1,0 +1,112 @@
+<div class="school-form-wrapper">
+  <h2 class="form-title">
+    <mat-icon class="form-icon">school</mat-icon>
+    Register a New School
+  </h2>
+
+  <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" class="school-form">
+    <div class="grid-container">
+            <mat-form-field appearance="outline">
+        <mat-label>District</mat-label>
+        <mat-select formControlName="district">
+          <mat-option *ngFor="let district of districts" [value]="district">{{ district }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <mat-select formControlName="city">
+          <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Zone</mat-label>
+        <mat-select formControlName="zone">
+          <mat-option *ngFor="let zone of zones" [value]="zone">{{ zone }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+      <mat-label>Cluster</mat-label>
+      <mat-select formControlName="cluster">
+      <mat-option *ngFor="let cluster of clusters" [value]="cluster">{{ cluster }}</mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+      <mat-label>School Type</mat-label>
+      <mat-select formControlName="schoolType">
+      <mat-option *ngFor="let type of schoolTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>School Name</mat-label>
+        <input matInput formControlName="schoolName" placeholder="e.g., Green Valley High School" />
+      </mat-form-field>
+
+        <mat-form-field appearance="outline">
+        <mat-label>Full Address</mat-label>
+        <input matInput formControlName="address" placeholder="e.g., 123 School Lane, City" />
+      </mat-form-field>
+
+       <mat-form-field appearance="outline">
+        <mat-label>HOD Name</mat-label>
+        <input matInput formControlName="hodName" placeholder="e.g., Mrs. Lakshmi Rao" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>HOD Mobile Number</mat-label>
+        <input matInput formControlName="hodMobile" placeholder="e.g., 9876543210" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>HOD Email Address</mat-label>
+        <input matInput formControlName="hodEmail" placeholder="e.g., hod@school.edu" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contact Person</mat-label>
+        <input matInput formControlName="contactPerson" placeholder="e.g., Mr. John Doe" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contact Person Designation</mat-label>
+        <input matInput formControlName="contactPersonDesignation" placeholder="e.g., Principal / Admin" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput formControlName="mobile" placeholder="e.g., 9876543210" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName="email" placeholder="e.g., contact@school.edu" />
+      </mat-form-field>
+    </div>
+
+    <div class="geo-section">
+      <mat-icon>location_on</mat-icon>
+      <span>Geo-location (Optional)</span>
+    </div>
+
+    <div class="grid-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Latitude</mat-label>
+        <input matInput formControlName="latitude" placeholder="e.g., 28.6139" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Longitude</mat-label>
+        <input matInput formControlName="longitude" placeholder="e.g., 77.2090" />
+      </mat-form-field>
+    </div>
+
+    <div class="action-buttons">
+      <button mat-raised-button type="submit" class="green-btn">Register School</button>
+      <button mat-stroked-button type="button" class="light-red-btn" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>

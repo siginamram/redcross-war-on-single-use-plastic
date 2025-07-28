@@ -1,0 +1,23 @@
+<div class="upload-container mat-elevation-z2">
+  <h2>Schools Bulk Upload</h2>
+
+  <div class="upload-box">
+    <button mat-raised-button color="primary" (click)="triggerFileInput(fileInput)">
+      <mat-icon>upload</mat-icon> Select Excel File
+    </button>
+
+    <span class="file-name" *ngIf="selectedFileName">{{ selectedFileName }}</span>
+
+    <input
+      #fileInput
+      type="file"
+      accept=".xlsx, .xls"
+      hidden
+      (change)="onFileSelected($event)"
+    />
+  </div>
+
+  <p class="note">
+    * Only Excel files (.xlsx, .xls) are supported.
+  </p>
+</div>

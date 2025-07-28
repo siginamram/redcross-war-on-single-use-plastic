@@ -1,0 +1,105 @@
+<mat-toolbar class="toolbar" color="primary">
+  <button mat-icon-button (click)="toggleSidenav(sidenav)" class="menu-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <div class="branding">
+    <img src="assets/images/logo.jpeg" alt="Red Cross Logo" class="logo" />
+    <span class="app-title">War on Single Use Plastic</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  <div class="user-info" [matMenuTriggerFor]="userMenu">
+    <span class="user-name">Welcome, Admin</span>
+    <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="isSmallScreen ? 'over' : 'side'"
+    [opened]="!isSmallScreen"
+    class="sidenav"
+  >
+    <div class="sidenav-content-wrapper">
+      <mat-nav-list>
+        <a mat-list-item [routerLink]="['/home', 'dashboards', 'admin-dashboard']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+          <mat-icon>dashboard</mat-icon>
+          <span class="menu-label">Admin Dashboard</span>
+        </a>
+
+        <a mat-list-item [routerLink]="['/home', 'dashboards', 'school-dashboard']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+          <mat-icon>dashboard</mat-icon>
+          <span class="menu-label">School Dashboard</span>
+        </a>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>school</mat-icon>
+              <span class="menu-label">Schools</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <a mat-list-item [routerLink]="['/home', 'core', 'schools-bulk-upload']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+            <mat-icon>upload</mat-icon>
+            <span class="menu-label">Bulk Upload</span>
+          </a>
+
+          <a mat-list-item [routerLink]="['/home', 'core', 'schools-list']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+            <mat-icon>list</mat-icon>
+            <span class="menu-label">Schools List</span>
+          </a>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>group</mat-icon>
+              <span class="menu-label">Students</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <a mat-list-item [routerLink]="['/home', 'core', 'students-bulk-upload']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+            <mat-icon>upload</mat-icon>
+            <span class="menu-label">Bulk Upload</span>
+          </a>
+
+          <a mat-list-item [routerLink]="['/home', 'core', 'students-list']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+            <mat-icon>list</mat-icon>
+            <span class="menu-label">Students List</span>
+          </a>
+        </mat-expansion-panel>
+
+        <a mat-list-item [routerLink]="['/home', 'core', 'plastic-collection']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+          <mat-icon>recycling</mat-icon>
+          <span class="menu-label">Plastic Collection</span>
+        </a>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+     <!-- <footer class="footer">
+      <span>&copy; 2025 Red Cross | War on Single Use Plastic</span>
+    </footer> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

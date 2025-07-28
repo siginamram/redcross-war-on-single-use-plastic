@@ -1,0 +1,146 @@
+<div class="dashboard-container">
+    <h2>
+    <mat-icon class="dashboard-icon">dashboard</mat-icon>
+    School Dashboard
+    </h2>
+  <div class="filter-section">
+    <mat-form-field appearance="outline">
+      <mat-label>From Date</mat-label>
+      <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>To Date</mat-label>
+      <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button class="custom-filter-btn">
+    <mat-icon>filter_alt</mat-icon>
+    Apply Filter
+    </button>
+  </div>
+
+  <div class="cards-section">
+  <div class="card" *ngFor="let card of stats">
+  <div class="card-content">
+    <div class="card-text">
+      <div class="title">{{ card.title }}</div>
+      <div class="value">{{ card.value }}</div>
+      <div class="sub">{{ card.sub }}</div>
+    </div>
+    <mat-icon class="icon right-icon">{{ card.icon }}</mat-icon>
+  </div>
+</div>
+
+  </div>
+
+<h2 class="section-heading">
+  <mat-icon class="section-icon">insights</mat-icon>
+  Overall Performance
+</h2>
+  <div class="cards-section">
+    <div class="card" *ngFor="let card of overall">
+    <div class="card-content">
+        <div class="card-text">
+        <div class="title">{{ card.title }}</div>
+        <div class="value">{{ card.value }}</div>
+        <div class="sub" *ngIf="card.sub">{{ card.sub }}</div>
+        </div>
+        <mat-icon class="icon right-icon">{{ card.icon }}</mat-icon>
+    </div>
+    </div>
+  </div>
+
+  <h2 class="section-heading">
+  <mat-icon class="section-icon">menu_book</mat-icon>
+  Class-wise Data
+</h2>
+  <div class="table-container">
+    <table mat-table [dataSource]="classData" class="mat-elevation-z2">
+
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>class</mat-icon> Class</th>
+        <td mat-cell *matCellDef="let row">{{ row.class }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="section">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>group</mat-icon> Section</th>
+        <td mat-cell *matCellDef="let row">{{ row.section }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>groups</mat-icon> Total</th>
+        <td mat-cell *matCellDef="let row">{{ row.total }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="participated">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>check_circle</mat-icon> Participated</th>
+        <td mat-cell *matCellDef="let row">{{ row.participated }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>percent</mat-icon> Participation %</th>
+        <td mat-cell *matCellDef="let row">{{ row.rate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="plastic">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>recycling</mat-icon> Plastic (KG)</th>
+        <td mat-cell *matCellDef="let row">{{ row.plastic }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+<h2 class="section-heading">
+  <mat-icon class="section-icon">emoji_events</mat-icon>
+  Top Performers
+</h2>
+  <div class="table-container">
+    <table mat-table [dataSource]="topPerformers" class="mat-elevation-z2">
+
+      <ng-container matColumnDef="rank">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>star</mat-icon> Rank</th>
+        <td mat-cell *matCellDef="let row">{{ row.rank }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>person</mat-icon> Name</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="roll">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>badge</mat-icon> Roll No</th>
+        <td mat-cell *matCellDef="let row">{{ row.roll }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>class</mat-icon> Class</th>
+        <td mat-cell *matCellDef="let row">{{ row.class }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="section">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>group</mat-icon> Section</th>
+        <td mat-cell *matCellDef="let row">{{ row.section }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="weeks">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>calendar_today</mat-icon> Weeks</th>
+        <td mat-cell *matCellDef="let row">{{ row.weeks }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="collected">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>recycling</mat-icon> Plastic (KG)</th>
+        <td mat-cell *matCellDef="let row">{{ row.collected }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="topColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: topColumns;"></tr>
+    </table>
+  </div>
+</div>

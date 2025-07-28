@@ -1,0 +1,161 @@
+.sidenav-container {
+  height: calc(100vh - 64px);
+  background-color: #f1f8e9;
+}
+.menu-button {
+  color: white;
+}
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #388e3c;
+  border-bottom: 4px solid #a5d6a7;
+  border-radius: 10px;
+  flex-wrap: nowrap;
+
+  .branding {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .logo {
+      height: 36px;
+      border-radius: 4px;
+    }
+
+    .app-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      white-space: nowrap;
+    }
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .user-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    mat-icon {
+      color: #ffffff;
+    }
+  }
+}
+
+/* Sidenav */
+.sidenav {
+  width: 240px;
+  background-color: #e8f5e9;
+  border: 4px solid #c8e6c9;
+  border-radius: 10px;
+  color: #2e7d32;
+
+  mat-nav-list {
+    a, mat-expansion-panel {
+      margin: 6px 8px;
+    }
+
+    mat-icon {
+      margin-right: 8px;
+      color: #2e7d32;
+    }
+    
+      .menu-label {
+        font-weight: 600;
+      }
+
+    a {
+      border-radius: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: #c8e6c9;
+      }
+
+      &.active {
+        background-color: #a5d6a7;
+        color: #1b5e20;
+
+        mat-icon {
+          color: #1b5e20;
+        }
+      }
+    }
+  }
+
+  mat-expansion-panel {
+    background: transparent;
+    box-shadow: none;
+
+    .mat-expansion-panel-header {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+
+      .menu-label {
+        font-weight: 600;
+      }
+    }
+
+    .mat-expansion-panel-content {
+      padding-left: 10px;
+    }
+  }
+}
+
+.main-content {
+  padding: 16px;
+  background-color: #f7fce7;
+}
+.footer {
+  background-color: #f8f9fa;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+  flex-shrink: 0;
+  border-top: 1px solid #ddd;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+/* Responsive */
+@media (max-width: 600px) {
+  .toolbar {
+    flex-wrap: wrap;
+    padding: 8px 10px;
+
+    .branding .logo {
+      height: 28px;
+    }
+
+    .branding .app-title {
+      font-size: 16px;
+    }
+
+    .user-info .user-name {
+      display: none;
+    }
+  }
+}

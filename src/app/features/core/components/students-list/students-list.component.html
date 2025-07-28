@@ -1,0 +1,62 @@
+<mat-card class="students-container">
+  <div class="header-row">
+    <div>
+      <h2>
+        <mat-icon class="header-icon">group</mat-icon>
+        Manage Students
+      </h2>
+      <p>View registered students or add a new one.</p>
+    </div>
+    <button mat-raised-button color="primary"  [routerLink]="['/home/core/students-form']">
+      <mat-icon>person_add</mat-icon> Add Student
+    </button>
+  </div>
+
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="students" class="mat-elevation-z1 full-width">
+
+      <!-- Student Name -->
+      <ng-container matColumnDef="studentName">
+        <th mat-header-cell *matHeaderCellDef> Student Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.studentName }} </td>
+      </ng-container>
+
+      <!-- School Name -->
+      <ng-container matColumnDef="schoolName">
+        <th mat-header-cell *matHeaderCellDef> School Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.schoolName }} </td>
+      </ng-container>
+
+      <!-- Class -->
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef> Class </th>
+        <td mat-cell *matCellDef="let element"> {{ element.class }} </td>
+      </ng-container>
+
+      <!-- Roll No -->
+      <ng-container matColumnDef="rollNo">
+        <th mat-header-cell *matHeaderCellDef> Roll No </th>
+        <td mat-cell *matCellDef="let element"> {{ element.rollNo }} </td>
+      </ng-container>
+
+      <!-- Zone -->
+      <ng-container matColumnDef="zone">
+        <th mat-header-cell *matHeaderCellDef> Zone </th>
+        <td mat-cell *matCellDef="let element">
+          <span class="zone-badge">{{ element.zone }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button color="accent">Edit</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</mat-card>
