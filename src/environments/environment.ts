@@ -4,11 +4,12 @@
 
 export const environment = {
   production: false,
-    //baseApiUrl: 'https://ashritafashionmall.com'
+  //baseApiUrl: 'https://ashritafashionmall.com'
   // baseApiUrl: 'http://103.191.208.97'  // Storing the base url of swagger, from where the swagger generate value 
-   baseApiUrl: 'https://localhost:44305'
+   baseApiUrl: 'https://localhost:44328'
 };
 
+//https://localhost:44328/swagger/index.html
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -44,6 +44,7 @@ import { ZonesListComponent } from './components/zones-list/zones-list.component
 import { ZonesFormComponent } from './components/zones-form/zones-form.component';
 import { ClusterListComponent } from './components/cluster-list/cluster-list.component';
 import { ClusterFormComponent } from './components/cluster-form/cluster-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -97,6 +98,7 @@ import { ClusterFormComponent } from './components/cluster-form/cluster-form.com
     MatChipsModule,
     MatProgressBarModule,
     MatBottomSheetModule,
+    HttpClientModule,
   ]
 })
 export class CoreModule { }

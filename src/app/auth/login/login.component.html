@@ -1,23 +1,45 @@
 <div class="login-container">
-  <mat-card class="login-card">
-    <h2>♻️ War on Single Use Plastic</h2>
-    <p class="subtitle">Login to continue to your dashboard</p>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username" placeholder="Enter username" />
-      </mat-form-field>
+  <div class="login-wrapper">
+   
+    <!-- Left Image Section -->
+    <div class="login-left">
+      <img src="assets/images/plastic-waste-concept.jpg" alt="Login Illustration" />
+    </div>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Enter password" />
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Toggle password visibility'" type="button">
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-      </mat-form-field>
+    <!-- Right Login Card Section -->
+    <mat-card class="login-card">
+ 
+      <div class="login-header">
+        <img src="assets/images/logo.jpeg" alt="Atoms Logo" class="logo-img" />
+        <br />
+        <h2>War on Single Use Plastic</h2>
+      </div>
 
-      <button mat-raised-button color="primary" class="full-width" type="submit">Login</button>
-    </form>
-  </mat-card>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>User Name</mat-label>
+          <input matInput formControlName="username" placeholder="Enter your email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Enter your password" />
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Toggle password visibility'" type="button">
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox> -->
+
+      <button mat-raised-button color="primary" style="color: whitesmoke; background-color: #2e7d32;" class="full-width" type="submit">
+        Login
+          <div class="loader-container" *ngIf="showSpinner">
+      <mat-spinner></mat-spinner>
+      </div>
+      </button>
+      </form>
+    </mat-card>
+  </div>
+ >
 </div>

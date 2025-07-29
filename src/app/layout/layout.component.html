@@ -11,7 +11,7 @@
   <span class="spacer"></span>
 
   <div class="user-info" [matMenuTriggerFor]="userMenu">
-    <span class="user-name">Welcome, Admin</span>
+    <span class="user-name">Welcome, {{this.userName}}</span>
     <button mat-icon-button>
       <mat-icon>account_circle</mat-icon>
     </button>
@@ -38,7 +38,7 @@
   >
     <div class="sidenav-content-wrapper">
       <mat-nav-list>
-        <a mat-list-item [routerLink]="['/home', 'dashboards', 'admin-dashboard']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+        <!-- <a mat-list-item [routerLink]="['/home', 'dashboards', 'admin-dashboard']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
           <mat-icon>dashboard</mat-icon>
           <span class="menu-label">Admin Dashboard</span>
         </a>
@@ -46,9 +46,15 @@
         <a mat-list-item [routerLink]="['/home', 'dashboards', 'school-dashboard']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
           <mat-icon>dashboard</mat-icon>
           <span class="menu-label">School Dashboard</span>
-        </a>
+        </a> -->
+          <li *ngFor="let item of menuItems">
+          <a mat-list-item [routerLink]="item.route" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span class="menu-label">{{ item.title }}</span>
+          </a>
+          </li>
 
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngIf="roleService.hasRole([ 'Admin'])">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>school</mat-icon>
@@ -67,7 +73,7 @@
           </a>
         </mat-expansion-panel>
 
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngIf="roleService.hasRole([ 'Admin'])">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>group</mat-icon>
@@ -86,12 +92,18 @@
           </a>
         </mat-expansion-panel>
 
-        <a mat-list-item [routerLink]="['/home', 'core', 'plastic-collection']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+        <a mat-list-item [routerLink]="['/home', 'core', 'plastic-collection']" *ngIf="roleService.hasRole([ 'Admin'])" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
           <mat-icon>recycling</mat-icon>
           <span class="menu-label">Plastic Collection</span>
         </a>
       </mat-nav-list>
     </div>
+      <!-- Logout Button -->
+      <div class="logout-btn">
+      <a (click)="logout()">
+      <i class="material-icons">exit_to_app</i> Log Out
+      </a>
+      </div>
   </mat-sidenav>
 
   <mat-sidenav-content>

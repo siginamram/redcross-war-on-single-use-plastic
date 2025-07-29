@@ -32,14 +32,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './auth/token.interceptor';
 import { LayoutComponent } from './layout/layout.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { HttpClientModule } from '@angular/common/http';
+import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent
+    LayoutComponent,
+    AlertDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -70,11 +74,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDialogModule,
     MatMenuModule,
     MatExpansionModule,
+    HttpClientModule,
   ],
-  providers: [
-    provideAnimationsAsync(), // Ensure async animations support
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-  ],
+providers: [
+  provideAnimationsAsync(), // Ensure async animations support
+  { provide: LocationStrategy, useClass: HashLocationStrategy },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

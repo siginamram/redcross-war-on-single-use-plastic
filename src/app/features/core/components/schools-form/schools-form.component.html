@@ -6,84 +6,98 @@
 
   <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" class="school-form">
     <div class="grid-container">
-            <mat-form-field appearance="outline">
-        <mat-label>District</mat-label>
-        <mat-select formControlName="district">
-          <mat-option *ngFor="let district of districts" [value]="district">{{ district }}</mat-option>
-        </mat-select>
-      </mat-form-field>
 
+      <!-- DISTRICT -->
+    <mat-form-field appearance="outline">
+    <mat-label>District</mat-label>
+    <mat-select formControlName="district" (selectionChange)="onDistrictChange($event.value)">
+    <mat-option *ngFor="let district of districts" [value]="district.districtID">
+      {{ district.districtName }}
+    </mat-option>
+    </mat-select>
+    </mat-form-field>
+
+      <!-- CITY -->
       <mat-form-field appearance="outline">
         <mat-label>City</mat-label>
         <mat-select formControlName="city">
-          <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+          <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
         </mat-select>
       </mat-form-field>
 
+      <!-- ZONE -->
       <mat-form-field appearance="outline">
         <mat-label>Zone</mat-label>
         <mat-select formControlName="zone">
-          <mat-option *ngFor="let zone of zones" [value]="zone">{{ zone }}</mat-option>
+          <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-      <mat-label>Cluster</mat-label>
-      <mat-select formControlName="cluster">
-      <mat-option *ngFor="let cluster of clusters" [value]="cluster">{{ cluster }}</mat-option>
-      </mat-select>
-      </mat-form-field>
+      <!-- CLUSTER -->
+    <mat-form-field appearance="outline">
+    <mat-label>Cluster</mat-label>
+    <mat-select formControlName="cluster">
+      <mat-option *ngFor="let cluster of clusters" [value]="cluster.id">{{ cluster.name }}</mat-option>
+    </mat-select>
+    </mat-form-field>
 
+      <!-- SCHOOL TYPE -->
       <mat-form-field appearance="outline">
       <mat-label>School Type</mat-label>
       <mat-select formControlName="schoolType">
-      <mat-option *ngFor="let type of schoolTypes" [value]="type">{{ type }}</mat-option>
+      <mat-option *ngFor="let type of schoolTypes" [value]="type.id">
+      {{ type.name }}
+      </mat-option>
       </mat-select>
       </mat-form-field>
 
+      <!-- SCHOOL NAME -->
       <mat-form-field appearance="outline">
         <mat-label>School Name</mat-label>
         <input matInput formControlName="schoolName" placeholder="e.g., Green Valley High School" />
       </mat-form-field>
 
-        <mat-form-field appearance="outline">
+      <!-- ADDRESS -->
+      <mat-form-field appearance="outline">
         <mat-label>Full Address</mat-label>
         <input matInput formControlName="address" placeholder="e.g., 123 School Lane, City" />
       </mat-form-field>
 
-       <mat-form-field appearance="outline">
+      <!-- HOD DETAILS -->
+      <mat-form-field appearance="outline">
         <mat-label>HOD Name</mat-label>
-        <input matInput formControlName="hodName" placeholder="e.g., Mrs. Lakshmi Rao" />
+        <input matInput formControlName="hodName" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>HOD Mobile Number</mat-label>
-        <input matInput formControlName="hodMobile" placeholder="e.g., 9876543210" />
+        <mat-label>HOD Mobile</mat-label>
+        <input matInput formControlName="hodMobile" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>HOD Email Address</mat-label>
-        <input matInput formControlName="hodEmail" placeholder="e.g., hod@school.edu" />
+        <mat-label>HOD Email</mat-label>
+        <input matInput formControlName="hodEmail" />
       </mat-form-field>
 
+      <!-- CONTACT PERSON DETAILS -->
       <mat-form-field appearance="outline">
         <mat-label>Contact Person</mat-label>
-        <input matInput formControlName="contactPerson" placeholder="e.g., Mr. John Doe" />
+        <input matInput formControlName="contactPerson" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Contact Person Designation</mat-label>
-        <input matInput formControlName="contactPersonDesignation" placeholder="e.g., Principal / Admin" />
+        <mat-label>Designation</mat-label>
+        <input matInput formControlName="contactPersonDesignation" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Mobile Number</mat-label>
-        <input matInput formControlName="mobile" placeholder="e.g., 9876543210" />
+        <input matInput formControlName="mobile" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Email Address</mat-label>
-        <input matInput formControlName="email" placeholder="e.g., contact@school.edu" />
+        <input matInput formControlName="email" />
       </mat-form-field>
     </div>
 
@@ -95,18 +109,19 @@
     <div class="grid-container">
       <mat-form-field appearance="outline">
         <mat-label>Latitude</mat-label>
-        <input matInput formControlName="latitude" placeholder="e.g., 28.6139" />
+        <input matInput formControlName="latitude" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Longitude</mat-label>
-        <input matInput formControlName="longitude" placeholder="e.g., 77.2090" />
+        <input matInput formControlName="longitude" />
       </mat-form-field>
     </div>
 
     <div class="action-buttons">
-      <button mat-raised-button type="submit" class="green-btn">Register School</button>
-      <button mat-stroked-button type="button" class="light-red-btn" (click)="onCancel()">Cancel</button>
+     <button mat-raised-button type="submit" style="background-color: #2e7d32; color: white; border-radius: 10px;">
+        Register</button>
+      <button mat-stroked-button type="button" style="background-color: red; color: white; border-radius: 10px;" (click)="onCancel()">Cancel</button>
     </div>
   </form>
 </div>

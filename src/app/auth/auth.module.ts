@@ -9,6 +9,8 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 
@@ -26,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     ReactiveFormsModule,
     FormsModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class AuthModule { }

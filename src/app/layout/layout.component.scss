@@ -159,3 +159,30 @@
     }
   }
 }
+
+/* Logout Button Styling */
+.logout-btn {
+  padding-top: 80px;
+  margin-top: auto; /* Push the logout button to the bottom */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-btn a {
+  background-color: #d32f2f; /* Button background color (red) */
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn a:hover {
+  background-color: #b71c1c; /* Darker red on hover */
+}
