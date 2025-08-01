@@ -54,6 +54,67 @@
           </a>
           </li>
 
+        <mat-expansion-panel *ngIf="roleService.hasRole(['Admin'])">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>business</mat-icon>
+            <span class="menu-label">Master Data</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <!-- Zones -->
+        <a mat-list-item [routerLink]="['/home', 'core', 'zone-list']" routerLinkActive="active"
+        (click)="isSmallScreen ? sidenav.close() : null">
+        <mat-icon>apartment</mat-icon>
+        <span class="menu-label">Zone</span>
+        </a>
+
+        <!-- <a mat-list-item [routerLink]="['/home', 'core', 'zone-form']" routerLinkActive="active"
+        (click)="isSmallScreen ? sidenav.close() : null">
+        <mat-icon>note_add</mat-icon>
+        <span class="menu-label">Add Zone</span>
+        </a> -->
+
+        <!-- Clusters -->
+        <a mat-list-item [routerLink]="['/home', 'core', 'cluster-list']" routerLinkActive="active"
+        (click)="isSmallScreen ? sidenav.close() : null">
+        <mat-icon>account_tree</mat-icon>
+        <span class="menu-label">Clusters</span>
+        </a>
+
+        <!-- <a mat-list-item [routerLink]="['/home', 'core', 'cluster-form']" routerLinkActive="active"
+        (click)="isSmallScreen ? sidenav.close() : null">
+        <mat-icon>note_add</mat-icon>
+        <span class="menu-label">Add Cluster</span>
+        </a> -->
+
+        <!-- Volunteers -->
+        <a mat-list-item [routerLink]="['/home', 'core', 'Volunteers-list']" routerLinkActive="active"
+        (click)="isSmallScreen ? sidenav.close() : null">
+        <mat-icon>groups</mat-icon>
+        <span class="menu-label">Volunteers</span>
+        </a>
+
+        <!-- <a mat-list-item [routerLink]="['/home', 'core', 'Volunteers-form']" routerLinkActive="active"
+        (click)="isSmallScreen ? sidenav.close() : null">
+        <mat-icon>person_add</mat-icon>
+        <span class="menu-label">Add Volunteer</span>
+        </a> -->
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="roleService.hasRole(['Admin'])">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>group</mat-icon>
+              <span class="menu-label">Users</span>
+            </mat-panel-title>  
+          </mat-expansion-panel-header>
+          <a mat-list-item [routerLink]="['/home', 'core', 'users-list']" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+            <mat-icon>list</mat-icon>
+            <span class="menu-label">Users List</span>
+          </a>
+        </mat-expansion-panel>
+
         <mat-expansion-panel *ngIf="roleService.hasRole([ 'Admin'])">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -92,7 +153,7 @@
           </a>
         </mat-expansion-panel>
 
-        <a mat-list-item [routerLink]="['/home', 'core', 'plastic-collection']" *ngIf="roleService.hasRole([ 'Admin'])" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
+        <a mat-list-item [routerLink]="['/home', 'core', 'plastic-collection']" *ngIf="roleService.hasRole([ 'School'])" routerLinkActive="active" (click)="isSmallScreen ? sidenav.close() : null">
           <mat-icon>recycling</mat-icon>
           <span class="menu-label">Plastic Collection</span>
         </a>

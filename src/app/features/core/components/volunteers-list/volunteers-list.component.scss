@@ -1,3 +1,5 @@
+@import '../students-list/students-list.component.scss'; // Optional if styles are reused
+
 .students-container {
   padding: 24px;
   background-color: #fcfde9;
@@ -29,10 +31,6 @@
     }
   }
 
-  .green-icon {
-    color: #2e7d32;
-  }
-
   .table-wrapper {
     margin-top: 20px;
     overflow-x: auto;
@@ -46,8 +44,6 @@
       th {
         color: #2e7d32;
         padding: 12px;
-        font-weight: 600;
-        text-align: left;
       }
 
       td {
@@ -57,33 +53,8 @@
   }
 
   .no-data {
-    margin: 16px 0;
+    margin: 20px;
     color: #888;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     font-style: italic;
-  }
-}
-
-.filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-
-  align-items: flex-end;
-
-  mat-form-field {
-
-    min-width: 120px;
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-
-    mat-form-field {
-      width: 100%;
-    }
   }
 }

@@ -20,5 +20,6 @@ export class AuthApiService {
   userLogin(post: any): Observable<any> {
     return this.http.post<any>(`${this.baseApiUrl}/api/User/userLogin`, post);
   }
-  
+
+
 }

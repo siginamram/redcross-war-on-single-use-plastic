@@ -1,1 +1,24 @@
-<p>zones-form works!</p>
+<mat-card class="form-container">
+  <h2><mat-icon>add_location</mat-icon> Add New Zone</h2>
+
+  <form [formGroup]="zoneForm" (ngSubmit)="onSubmit()" class="form-grid">
+    <!-- City Dropdown -->
+    <mat-form-field appearance="outline">
+      <mat-label>City</mat-label>
+      <mat-select formControlName="cityID">
+        <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Zone Name -->
+    <mat-form-field appearance="outline">
+      <mat-label>Zone Name</mat-label>
+      <input matInput formControlName="zoneName" placeholder="Enter zone name" />
+    </mat-form-field>
+
+    <div class="action-buttons">
+      <button mat-raised-button type="submit" style="background-color:#2e7d32; color:white;">Save</button>
+      <button mat-stroked-button type="button" color="warn" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</mat-card>

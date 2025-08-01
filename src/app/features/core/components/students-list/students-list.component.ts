@@ -1,18 +1,77 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { CoreApiService } from '../../services/core-api.service';
 
 @Component({
   selector: 'app-students-list',
- standalone: false,
+  standalone: false,
   templateUrl: './students-list.component.html',
-  styleUrl: './students-list.component.scss'
+  styleUrls: ['./students-list.component.scss']
 })
-export class StudentsListComponent {
-  displayedColumns: string[] = ['studentName', 'schoolName', 'class', 'rollNo', 'zone', 'actions'];
-
-  students = [
-    { studentName: 'Aarav Sharma', schoolName: 'Sunrise Public School', class: '8-A', rollNo: '01', zone: 'Zone A' },
-    { studentName: 'Dia Mirza', schoolName: 'Riverdale High', class: '9-B', rollNo: '02', zone: 'Zone B' },
-    { studentName: 'Rohan Kumar', schoolName: 'Green Valley High', class: '7-A', rollNo: '03', zone: 'Zone A' },
-    { studentName: 'Priya Singh', schoolName: 'City Central School', class: '8-C', rollNo: '15', zone: 'Zone C' }
+export class StudentsListComponent implements OnInit {
+  displayedColumns: string[] = [
+    'sno',
+    'studentName',
+    'classID',
+    'sectionID',
+    'rollNumber',
+    'gender',
+    'photoLink',
+    'actions'
   ];
+
+  dataSource = new MatTableDataSource<any>([]);
+  zones: any[] = [];
+  clusters: any[] = [];
+  schools: any[] = [];
+
+  selectedZone: number = 0;
+  selectedCluster: number = 0;
+  selectedSchool: number = 0;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private api: CoreApiService) {}
+
+  ngOnInit(): void {
+    this.api.getZones(1).subscribe(res => {
+      this.zones = res;
+    });
+  }
+
+ngAfterViewInit() {
+  this.dataSource.paginator = this.paginator;
+}
+  onZoneChange() {
+    this.api.getClustersByZone(this.selectedZone).subscribe(res => {
+      this.clusters = res;
+      this.schools = [];
+      this.dataSource.data = [];
+    });
+  }
+
+  onClusterChange() {
+    this.api.getSchoolsByCluster(this.selectedCluster).subscribe(res => {
+      this.schools = res;
+      this.dataSource.data = [];
+    });
+  }
+
+  onSchoolChange(): void {
+    if (!this.selectedSchool) {
+      console.warn('No school selected');
+      return;
+    }
+
+    this.api.getStudentsBySchool(this.selectedSchool).subscribe({
+      next: (res) => {
+        this.dataSource = new MatTableDataSource<any>(res);
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        console.error('Error fetching students:', err);
+      }
+    });
+  }
 }

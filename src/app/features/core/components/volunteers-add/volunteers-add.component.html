@@ -1,0 +1,35 @@
+<mat-card class="form-container">
+  <h2><mat-icon>person_add</mat-icon> Add Volunteer</h2>
+
+  <form [formGroup]="volunteerForm" (ngSubmit)="onSubmit()" class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="volunteerName" placeholder="Volunteer full name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Mobile No</mat-label>
+      <input matInput formControlName="mobileNo" maxlength="10" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <textarea matInput formControlName="address"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Organization</mat-label>
+      <input matInput formControlName="organization" />
+    </mat-form-field>
+
+    <div class="action-buttons">
+      <button mat-raised-button type="submit" style="background-color: #2e7d32; color: white;">Save</button>
+      <button mat-stroked-button type="button" color="warn" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</mat-card>

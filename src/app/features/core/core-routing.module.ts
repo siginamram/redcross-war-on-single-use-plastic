@@ -12,17 +12,27 @@ import { ZonesListComponent } from './components/zones-list/zones-list.component
 import { ZonesFormComponent } from './components/zones-form/zones-form.component';
 import { ClusterListComponent } from './components/cluster-list/cluster-list.component';
 import { ClusterFormComponent } from './components/cluster-form/cluster-form.component';
+import { VolunteersListComponent } from './components/volunteers-list/volunteers-list.component';
+import { VolunteersAddComponent } from './components/volunteers-add/volunteers-add.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { UserUpdatePopupComponent } from './components/user-update-popup/user-update-popup.component';
 
 const routes: Routes = [
   { 
     path: '', component: CoreComponent ,
     children: 
     [
+      {path: 'users-list', component: UserListComponent },
+      {path: 'users-form', component: UserUpdatePopupComponent },
+
       {path: 'zone-list', component: ZonesListComponent },
       {path: 'zone-form', component: ZonesFormComponent },
 
-      {path: 'cluster-form', component: ClusterListComponent },
+      {path: 'cluster-list', component: ClusterListComponent },
       {path: 'cluster-form', component: ClusterFormComponent },
+
+      {path: 'Volunteers-list', component: VolunteersListComponent },
+      {path: 'Volunteers-form', component: VolunteersAddComponent },
 
       {path: 'schools-form', component: SchoolsFormComponent },
       {path: 'schools-list', component: SchoolsListComponent },

@@ -45,7 +45,10 @@ import { ZonesFormComponent } from './components/zones-form/zones-form.component
 import { ClusterListComponent } from './components/cluster-list/cluster-list.component';
 import { ClusterFormComponent } from './components/cluster-form/cluster-form.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { VolunteersAddComponent } from './components/volunteers-add/volunteers-add.component';
+import { VolunteersListComponent } from './components/volunteers-list/volunteers-list.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { UserUpdatePopupComponent } from './components/user-update-popup/user-update-popup.component';
 
 
 @NgModule({
@@ -62,6 +65,10 @@ import { HttpClientModule } from '@angular/common/http';
     ZonesFormComponent,
     ClusterListComponent,
     ClusterFormComponent,
+    VolunteersAddComponent,
+    VolunteersListComponent,
+    UserListComponent,
+    UserUpdatePopupComponent,
     
   ],
   imports: [

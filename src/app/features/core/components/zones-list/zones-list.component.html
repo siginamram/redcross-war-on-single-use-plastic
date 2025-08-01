@@ -1,1 +1,60 @@
-<p>zones-list works!</p>
+<mat-card class="students-container">
+  <div class="header-row">
+    <div>
+      <h2><mat-icon class="header-icon">map</mat-icon> Manage Zones</h2>
+      <p>View zones by city or add new.</p>
+    </div>
+    <button mat-raised-button color="primary" [routerLink]="['/home/core/zone-form']">
+      <mat-icon>add</mat-icon> Add Zone
+    </button>
+  </div>
+
+  <div class="filter-row">
+    <mat-form-field appearance="outline">
+      <mat-label>City</mat-label>
+      <mat-select [(value)]="selectedCity" (selectionChange)="onCityChange()">
+        <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 full-width">
+
+      <!-- S.No -->
+      <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>format_list_numbered</mat-icon> S.No</th>
+        <td mat-cell *matCellDef="let row"> {{ getRowNumber(row) }} </td>
+      </ng-container>
+
+      <!-- Zone Name -->
+      <ng-container matColumnDef="zoneName">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>location_city</mat-icon> Zone Name</th>
+        <td mat-cell *matCellDef="let row"> {{ row.zoneName }} </td>
+      </ng-container>
+
+      <!-- City Name -->
+      <!-- <ng-container matColumnDef="cityName">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>location_on</mat-icon> City</th>
+        <td mat-cell *matCellDef="let row"> {{ row.cityName }} </td>
+      </ng-container> -->
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef><mat-icon>edit</mat-icon> Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="accent" (click)="editZone(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+     <div class="no-data" *ngIf="dataSource.data.length === 0">
+      <mat-icon>info</mat-icon> No zones found.
+    </div>
+    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</mat-card>

@@ -33,16 +33,111 @@ export class CoreApiService {
   }
 
     // Get all Zones
-  getZones(): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/api/MasterData/GetZones`);
+  getZones(cityId: number): Observable<any> {
+    return this.http.get(`${this.baseApiUrl}/api/MasterData/GetZonesByCity/${cityId}`);
+  }
+
+    getSections(): Observable<any> {
+    return this.http.get(`${this.baseApiUrl}/api/MasterData/GetSections`);
   }
 
       // Get all Classes
   getClasses(): Observable<any> {
     return this.http.get(`${this.baseApiUrl}/api/MasterData/GetClasses`);
   }
-  // Get all Sections
-  getSections(): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/api/MasterData/GetSections`);
+  // Get all School Types
+  getSchoolTypes(): Observable<any> {
+    return this.http.get(`${this.baseApiUrl}/api/MasterData/GetSchoolTypes`);
   }
+// School API Services
+
+// GET methods
+getVolunteers(): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetVolunteers`);
+}
+
+getClustersByZone(ZoneId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetClustersByZone/${ZoneId}`);
+}
+
+getSchoolsByCluster(ClusterId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetSchoolsByCluster/${ClusterId}`);
+}
+
+getSchoolsByVolunteer(VolunteerId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetSchoolsByVolunteer/${VolunteerId}`);
+}
+
+getSchoolsByZone(ZoneId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetSchoolsByZone/${ZoneId}`);
+}
+
+getStudentsBySchool(SchoolId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetStudentsBySchool/${SchoolId}`);
+}
+
+getStudentsByClass(ClassId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetStudentsByClass/${ClassId}`);
+}
+
+getStudentsBySection(SectionId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetStudentsBySection/${SectionId}`);
+}
+
+  
+  GetUsersByCity(cityId: number,ZoneId: number,ClusterId: number,): Observable<any> {
+   return this.http.get(`${this.baseApiUrl}/api/User/GetUsersByCity/${cityId}/${ZoneId}/${ClusterId}`);
+  }
+
+  UpdateUser(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/User/UpdateUser`, payload, {
+    responseType: 'text' as 'json',
+  });
+ }
+ UpdateZone(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/MasterData/UpdateZone`, payload, {
+    responseType: 'text' as 'json',
+  });
+ }
+// POST methods with responseType: 'text' as 'json'
+updateVolunteer(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/UpdateVolunteer`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+updateCluster(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/UpdateCluster`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+updateSchool(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/UpdateSchool`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+updateStudent(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/UpdateStudent`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+UpdatePlasticCollection(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/UpdatePlasticCollection`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+GetPlasticCollectionsByClass(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/GetPlasticCollectionsByClass`, payload);
+}
+
+BulkUploadPlasticCollection(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/BulkUploadPlasticCollection`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
 }

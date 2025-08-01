@@ -2,11 +2,13 @@
   padding: 24px;
   background-color: #fcfde9;
 
+
   .header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+      color: #2e7d32;
 
     h2 {
       display: flex;
@@ -27,17 +29,24 @@
       color: #fff;
     }
   }
-
+.green-icon {
+  color: #2e7d32;
+}
   .table-wrapper {
     margin-top: 20px;
     overflow-x: auto;
-
+   border: 4px solid #c8e6c9;
+    border-radius: 10px;
     table {
       width: 100%;
       min-width: 600px;
-
-      th, td {
+      th{
+        color: #2e7d32;
         padding: 12px;
+      }
+       td {
+        padding: 12px;
+        
       }
 
       .zone-badge {
@@ -50,4 +59,49 @@
       }
     }
   }
+}
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+
+  align-items: flex-end;
+
+  mat-form-field {
+     flex: 1;
+    min-width: 220px;
+  }
+
+  button.filter-btn {
+    height: 56px;
+    padding: 0 24px;
+    border-radius: 8px;
+    background-color: #2e7d32;
+    color: #fff;
+    font-weight: 500;
+
+    mat-icon {
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background-color: #256527;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    mat-form-field,
+    button.filter-btn {
+      width: 100%;
+    }
+  }
+}
+.no-data-message {
+  text-align: center;
+  margin-top: 30px;
+  color: #777;
+  font-style: italic;
 }

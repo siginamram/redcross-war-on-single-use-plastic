@@ -6,55 +6,62 @@
 
   <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="form-grid">
 
-    <!-- Zone -->
-    <mat-form-field appearance="outline">
-      <mat-label>Zone</mat-label>
-      <mat-select formControlName="zone" (selectionChange)="onZoneChange()">
-        <mat-option *ngFor="let zone of zones" [value]="zone">{{ zone }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+ <!-- Zone -->
+<mat-form-field appearance="outline">
+  <mat-label>Zone</mat-label>
+  <mat-select formControlName="zone" (selectionChange)="onZoneChange()">
+    <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
+  </mat-select>
+</mat-form-field>
 
-    <!-- Cluster (shown after zone is selected) -->
-    <ng-container >
-      <mat-form-field appearance="outline">
-        <mat-label>Cluster</mat-label>
-        <mat-select formControlName="cluster" (selectionChange)="onClusterChange()">
-          <mat-option *ngFor="let cluster of filteredClusters" [value]="cluster">{{ cluster }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </ng-container>
+<!-- Cluster -->
+<mat-form-field appearance="outline">
+  <mat-label>Cluster</mat-label>
+  <mat-select formControlName="cluster" (selectionChange)="onClusterChange()">
+    <mat-option *ngFor="let cluster of clusters" [value]="cluster.clusterId">{{ cluster.clusterName }}</mat-option>
+  </mat-select>
+</mat-form-field>
 
-    <!-- School (shown after cluster is selected) -->
-    <ng-container>
-      <mat-form-field appearance="outline">
-        <mat-label>School Name</mat-label>
-        <mat-select formControlName="schoolName">
-          <mat-option *ngFor="let school of filteredSchools" [value]="school">{{ school }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </ng-container>
+<!-- School -->
+<mat-form-field appearance="outline">
+  <mat-label>School Name</mat-label>
+  <mat-select formControlName="schoolName">
+    <mat-option *ngFor="let school of schools" [value]="school.schoolID">{{ school.schoolName }}</mat-option>
+  </mat-select>
+</mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Student Name</mat-label>
       <input matInput formControlName="studentName" placeholder="Enter student’s full name" />
     </mat-form-field>
 
+  <mat-form-field appearance="outline">
+    <mat-label>Gender</mat-label>
+    <mat-select formControlName="gender">
+      <mat-option [value]="1">Male</mat-option>
+      <mat-option [value]="2">Female</mat-option>
+      <mat-option [value]="3">Other</mat-option>
+    </mat-select>
+  </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Roll Number</mat-label>
       <input matInput formControlName="rollNo" placeholder="e.g., 25" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Class</mat-label>
-      <mat-select formControlName="class">
-        <mat-option *ngFor="let cls of classes" [value]="cls">{{ cls }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+   <!-- Class -->
+<mat-form-field appearance="outline">
+  <mat-label>Class</mat-label>
+  <mat-select formControlName="class">
+    <mat-option *ngFor="let cls of classes" [value]="cls.classID">{{ cls.className }}</mat-option>
+  </mat-select>
+</mat-form-field>
 
-  <mat-form-field appearance="outline">
+<!-- Section -->
+<mat-form-field appearance="outline">
   <mat-label>Section</mat-label>
   <mat-select formControlName="section">
-    <mat-option *ngFor="let sec of sections" [value]="sec">{{ sec }}</mat-option>
+    <mat-option *ngFor="let sec of sections" [value]="sec.sectionID">{{ sec.sectionName }}</mat-option>
   </mat-select>
 </mat-form-field>
 

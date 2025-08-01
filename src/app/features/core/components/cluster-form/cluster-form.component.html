@@ -1,1 +1,61 @@
-<p>cluster-form works!</p>
+<div class="cluster-form-container">
+  <mat-card>
+    <h2><mat-icon>group_work</mat-icon> Add / Update Cluster</h2>
+
+    <form [formGroup]="clusterForm" (ngSubmit)="onSubmit()">
+      <div class="form-fields">
+
+  <!-- City -->
+<mat-form-field appearance="outline">
+  <mat-label>City</mat-label>
+  <mat-select formControlName="cityID" (selectionChange)="onCityChange($event.value)">
+    <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
+  </mat-select>
+  <mat-error *ngIf="clusterForm.get('cityID')?.hasError('required')">
+    City is required
+  </mat-error>
+</mat-form-field>
+
+<!-- Zone -->
+<mat-form-field appearance="outline">
+  <mat-label>Zone</mat-label>
+  <mat-select formControlName="zoneID">
+    <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
+  </mat-select>
+  <mat-error *ngIf="clusterForm.get('zoneID')?.hasError('required')">
+    Zone is required
+  </mat-error>
+</mat-form-field>
+
+<!-- Volunteer -->
+<mat-form-field appearance="outline">
+  <mat-label>Volunteer</mat-label>
+  <mat-select formControlName="volunteerID">
+    <mat-option *ngFor="let vol of volunteers" [value]="vol.volunteerId">{{ vol.volunteerName }}</mat-option>
+  </mat-select>
+  <mat-error *ngIf="clusterForm.get('volunteerID')?.hasError('required')">
+    Volunteer is required
+  </mat-error>
+</mat-form-field>
+
+<!-- Cluster Name -->
+<mat-form-field appearance="outline">
+  <mat-label>Cluster Name</mat-label>
+  <input matInput formControlName="clusterName" />
+  <mat-error *ngIf="clusterForm.get('clusterName')?.hasError('required')">
+    Cluster Name is required
+  </mat-error>
+</mat-form-field>
+
+
+
+      </div>
+
+      <div class="form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="clusterForm.invalid">
+          <mat-icon>save</mat-icon> Submit
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

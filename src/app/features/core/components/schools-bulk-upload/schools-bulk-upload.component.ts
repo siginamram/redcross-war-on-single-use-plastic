@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CoreApiService } from '../../services/core-api.service';
 
 @Component({
   selector: 'app-schools-bulk-upload',
@@ -9,6 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class SchoolsBulkUploadComponent {
   selectedFileName: string = '';
+  constructor(private fb: FormBuilder, private coreApiService: CoreApiService) {}
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
