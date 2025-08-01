@@ -2,16 +2,31 @@
   max-width: 1000px;
   margin: auto;
   padding: 24px;
-  background-color:#fff;
+  background-color: #fff;
   border-radius: 12px;
   border: 4px solid #c8e6c9;
+
+  &.popup-mode {
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding-right: 12px;
+  }
 }
 
 .form-title {
-  font-weight: 600;
+  display: flex;
+  align-items: center;
   font-size: 22px;
-  color: #1b5e20;
-  margin-bottom: 24px;
+  font-weight: 600;
+  color: #2e7d32;
+  margin-bottom: 20px;
+
+  .form-icon {
+    margin-right: 10px;
+    color: #2e7d32;
+    font-size: 26px;
+  }
 }
 
 .school-form {
@@ -20,10 +35,23 @@
   gap: 24px;
 }
 
+// Default: responsive 2-column layout
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
+}
+
+// Popup mode: force compact 3-column layout
+.popup-mode .grid-container {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+// Smaller screens: single column layout in popup
+@media (max-width: 768px) {
+  .popup-mode .grid-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .geo-section {
@@ -40,6 +68,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 16px;
+  margin-top: 16px;
 
   button {
     border-radius: 10px;
@@ -47,7 +76,16 @@
   }
 }
 
-/* Mobile optimization */
+// Sticky action buttons for popup
+.popup-mode .action-buttons {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 16px 0 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+// Mobile optimization
 @media (max-width: 600px) {
   .form-title {
     text-align: center;
@@ -56,19 +94,5 @@
   .action-buttons {
     flex-direction: column;
     align-items: center;
-  }
-}
-.form-title {
-  display: flex;
-  align-items: center;
-  font-size: 22px;
-  font-weight: 600;
-  color: #2e7d32; // Eco green
-  margin-bottom: 20px;
-
-  .form-icon {
-    margin-right: 10px;
-    color: #2e7d32;
-    font-size: 26px;
   }
 }

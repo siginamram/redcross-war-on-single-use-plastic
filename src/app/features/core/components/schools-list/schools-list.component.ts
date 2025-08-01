@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoreApiService } from '../../services/core-api.service';
+import { SchoolsFormComponent } from '../schools-form/schools-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-schools-list',
@@ -34,7 +36,9 @@ export class SchoolsListComponent implements OnInit, AfterViewInit {
   selectedZoneId: number = 0;
   selectedClusterId: number | null = null;
 
-  constructor(private api: CoreApiService) {}
+  constructor(private api: CoreApiService,
+              private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     const districtId = 1; // Default district ID
@@ -112,8 +116,16 @@ getRowNumber(row: any): number {
 }
 
  
-  editSchool(school: any): void {
-    console.log('Editing school:', school);
-    // Add navigation or popup logic here
+ editSchool(school: any): void {
+    const dialogRef = this.dialog.open(SchoolsFormComponent, {
+       width: '700px',
+      data: school
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'refresh') {
+        this.onClusterChange(this.selectedClusterId!);
+      }
+    });
   }
 }

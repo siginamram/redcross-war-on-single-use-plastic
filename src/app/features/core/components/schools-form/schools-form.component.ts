@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoreApiService } from '../../services/core-api.service';
 import { Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '../../../../shared/components/alert-dialog/alert-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-schools-form',
@@ -18,19 +18,30 @@ export class SchoolsFormComponent implements OnInit {
   zones: any[] = [];
   schoolTypes: any[] = [];
   clusters: any[] = [];
+  isPopupMode = false;
 
   constructor(
     private fb: FormBuilder,
     private api: CoreApiService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    @Optional() public dialogRef?: MatDialogRef<SchoolsFormComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data?: any
   ) {}
 
   ngOnInit(): void {
+    this.isPopupMode = !!this.dialogRef;
+    console.log('Is Popup data:', this.data);
     this.initializeForm();
-    this.fetchDistricts(1); 
+    this.fetchDistricts(1);
     this.fetchSchoolTypes();
-    this.fetchClustersByZone(); // You can also call this on zone change
+
+    if (this.data) {
+      this.patchForm(this.data);
+      this.onDistrictChange(this.data.districtID);
+      this.onCityChange(this.data.cityID);
+
+    }
   }
 
   initializeForm(): void {
@@ -54,6 +65,29 @@ export class SchoolsFormComponent implements OnInit {
     });
   }
 
+  patchForm(school: any): void {
+    this.schoolForm.patchValue({
+      schoolName: school.schoolName,
+      hodName: school.hodName,
+      hodMobile: school.hodPhone,
+      hodEmail: school.hodEmail,
+      contactPerson: school.contactPersonName,
+      contactPersonDesignation: school.contactPersonDesignation,
+      mobile: school.contactPersonPhone,
+      email: school.contactPersonEmail,
+      schoolType: school.schoolTypeId,
+      address: school.schoolAddress,
+      latitude: school.latitude,
+      longitude: school.longitude,
+      district: school.districtID,
+      city: school.cityID,
+      zone: school.zoneID || school.zoneId,
+      cluster: school.clusterId
+    });
+
+    this.schoolForm.addControl('schoolID', this.fb.control(school.schoolID));
+  }
+
   fetchDistricts(stateId: number): void {
     this.api.getDistrictsByState(stateId).subscribe({
       next: (res) => this.districts = res || [],
@@ -67,21 +101,21 @@ export class SchoolsFormComponent implements OnInit {
       error: () => this.cities = []
     });
   }
+
   onCityChange(cityId: number): void {
-    this.fetchZones(cityId);       
-    this.schoolForm.get('zone')?.setValue(null); 
-    this.clusters = [];          
+    this.fetchZones(cityId);
+    this.schoolForm.get('zone')?.setValue(null);
+    this.clusters = [];
   }
 
-    fetchZones(cityId: number): void {
+  fetchZones(cityId: number): void {
     if (!cityId) return;
 
     this.api.getZones(cityId).subscribe({
       next: (res) => this.zones = res || [],
       error: () => this.zones = []
     });
-    }
-
+  }
 
   fetchSchoolTypes(): void {
     this.api.getSchoolTypes().subscribe({
@@ -100,64 +134,66 @@ export class SchoolsFormComponent implements OnInit {
   }
 
   onZoneChange(): void {
-    this.fetchClustersByZone(); // re-fetch clusters when zone changes
+    this.fetchClustersByZone();
   }
 
- onSubmit(): void {
-  if (this.schoolForm.invalid) {
-    this.schoolForm.markAllAsTouched();
-    return;
-  }
-
-  const formValue = this.schoolForm.value;
-
-  const payload = {
-    schoolID: formValue.schoolID || 0, // optional, set to 0 if undefined
-    schoolName: formValue.schoolName,
-    hodName: formValue.hodName,
-    hodPhone: formValue.hodMobile,
-    hodEmail: formValue.hodEmail,
-    contactPersonName: formValue.contactPerson,
-    contactPersonPhone: formValue.mobile,
-    contactPersonEmail: formValue.email,
-    contactPersonDesignation: formValue.contactPersonDesignation,
-    schoolTypeId: formValue.schoolType,
-    schoolAddress: formValue.address,
-    latitude: formValue.latitude || 0,
-    longitude: formValue.longitude || 0,
-    clusterId: formValue.cluster,
-    zoneID: formValue.zone,
-    cityID: formValue.city,
-    districtID: formValue.district,
-    stateID: 1 // assuming state is fixed for now
-  };
-
-  this.api.updateSchool(payload).subscribe({
-    next: () => {
-      //alert('School saved successfully');
-      this.openAlertDialog('Success', 'School saved successfully!', 'success');
-      this.router.navigate(['/home/core/schools-list']);
-    },
-    error: (err) => {
-      console.error('Error saving school', err);
-      //alert('Failed to save school');
-      this.openAlertDialog('Error', 'Failed to save school. Please try again.', 'error');
+  onSubmit(): void {
+    if (this.schoolForm.invalid) {
+      this.schoolForm.markAllAsTouched();
+      return;
     }
-  });
-}
 
-   openAlertDialog(title: string, message: string, type: string): void {
+    const formValue = this.schoolForm.value;
+
+    const payload = {
+      schoolID: formValue.schoolID || 0,
+      schoolName: formValue.schoolName,
+      hodName: formValue.hodName,
+      hodPhone: formValue.hodMobile,
+      hodEmail: formValue.hodEmail,
+      contactPersonName: formValue.contactPerson,
+      contactPersonPhone: formValue.mobile,
+      contactPersonEmail: formValue.email,
+      contactPersonDesignation: formValue.contactPersonDesignation,
+      schoolTypeId: formValue.schoolType,
+      schoolAddress: formValue.address,
+      latitude: formValue.latitude || 0,
+      longitude: formValue.longitude || 0,
+      clusterId: formValue.cluster,
+      zoneID: formValue.zone,
+      cityID: formValue.city,
+      districtID: formValue.district,
+      stateID: 1
+    };
+
+    this.api.updateSchool(payload).subscribe({
+      next: () => {
+        this.openAlertDialog('Success', 'School saved successfully!', 'success');
+        if (this.dialogRef) {
+          this.dialogRef.close('refresh');
+        } else {
+          this.router.navigate(['/home/core/schools-list']);
+        }
+      },
+      error: (err) => {
+        console.error('Error saving school', err);
+        this.openAlertDialog('Error', 'Failed to save school. Please try again.', 'error');
+      }
+    });
+  }
+
+  openAlertDialog(title: string, message: string, type: string): void {
     this.dialog.open(AlertDialogComponent, {
       width: '400px',
-      data: {
-        title,
-        message,
-        type,
-      },
+      data: { title, message, type },
     });
   }
 
   onCancel(): void {
-    this.router.navigate(['/home/core/schools-list']);
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    } else {
+      this.router.navigate(['/home/core/schools-list']);
+    }
   }
 }
