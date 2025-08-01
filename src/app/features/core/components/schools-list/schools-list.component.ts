@@ -118,7 +118,7 @@ getRowNumber(row: any): number {
  
  editSchool(school: any): void {
     const dialogRef = this.dialog.open(SchoolsFormComponent, {
-       width: '700px',
+       width: '900px',
       data: school
     });
 

@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoreApiService } from '../../services/core-api.service';
+import { MatDialog } from '@angular/material/dialog';
+import { StudentsFormComponent } from '../students-form/students-form.component';
 
 @Component({
   selector: 'app-students-list',
@@ -32,7 +34,9 @@ export class StudentsListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private api: CoreApiService) {}
+  constructor(private api: CoreApiService,
+              private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.api.getZones(1).subscribe(res => {
@@ -74,4 +78,16 @@ ngAfterViewInit() {
       }
     });
   }
+   editStudent(student: any): void {
+      const dialogRef = this.dialog.open(StudentsFormComponent, {
+         width: '900px',
+        data: student
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'refresh') {
+          this.onSchoolChange();
+        }
+      });
+    }
 }

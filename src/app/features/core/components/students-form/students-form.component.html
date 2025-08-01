@@ -1,7 +1,7 @@
-<mat-card class="form-container">
+<mat-card class="form-container" [ngClass]="{ 'popup-mode': isPopupMode }">
   <h2>
     <mat-icon>person_add</mat-icon>
-    Register a New Student
+    {{ isPopupMode ? 'Update Student' : 'Register a New Student' }}
   </h2>
 
   <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="form-grid">
