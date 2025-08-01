@@ -29,20 +29,49 @@ export class SchoolsFormComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: any
   ) {}
 
-  ngOnInit(): void {
-    this.isPopupMode = !!this.dialogRef;
-    console.log('Is Popup data:', this.data);
-    this.initializeForm();
-    this.fetchDistricts(1);
-    this.fetchSchoolTypes();
+ngOnInit(): void {
+  this.isPopupMode = !!this.dialogRef;
+  this.initializeForm();
+  this.fetchSchoolTypes();
 
-    if (this.data) {
-      this.patchForm(this.data);
-      this.onDistrictChange(this.data.districtID);
-      this.onCityChange(this.data.cityID);
+  if (this.data) {
+    this.api.getDistrictsByState(1).subscribe({
+      next: (districtsRes) => {
+        this.districts = districtsRes || [];
+        this.schoolForm.patchValue({ district: this.data.districtID });
 
-    }
+        this.api.getCitiesByDistrict(this.data.districtID).subscribe({
+          next: (citiesRes) => {
+            this.cities = citiesRes || [];
+            this.schoolForm.patchValue({ city: this.data.cityID });
+
+            this.api.getZones(this.data.cityID).subscribe({
+              next: (zonesRes) => {
+                this.zones = zonesRes || [];
+                this.schoolForm.patchValue({ zone: this.data.zoneID });
+
+                this.api.getClustersByZone(this.data.zoneID).subscribe({
+                  next: (clustersRes) => {
+                    this.clusters = clustersRes || [];
+                    this.schoolForm.patchValue({ cluster: this.data.clusterId });
+                    this.patchForm(this.data); // Final patch after dropdowns are ready
+                  },
+                  error: () => this.clusters = []
+                });
+              },
+              error: () => this.zones = []
+            });
+          },
+          error: () => this.cities = []
+        });
+      },
+      error: () => this.districts = []
+    });
+  } else {
+    this.fetchDistricts(1); // only for add form
   }
+}
+
 
   initializeForm(): void {
     this.schoolForm = this.fb.group({
@@ -65,28 +94,25 @@ export class SchoolsFormComponent implements OnInit {
     });
   }
 
-  patchForm(school: any): void {
-    this.schoolForm.patchValue({
-      schoolName: school.schoolName,
-      hodName: school.hodName,
-      hodMobile: school.hodPhone,
-      hodEmail: school.hodEmail,
-      contactPerson: school.contactPersonName,
-      contactPersonDesignation: school.contactPersonDesignation,
-      mobile: school.contactPersonPhone,
-      email: school.contactPersonEmail,
-      schoolType: school.schoolTypeId,
-      address: school.schoolAddress,
-      latitude: school.latitude,
-      longitude: school.longitude,
-      district: school.districtID,
-      city: school.cityID,
-      zone: school.zoneID || school.zoneId,
-      cluster: school.clusterId
-    });
+patchForm(school: any): void {
+  this.schoolForm.patchValue({
+    schoolName: school.schoolName,
+    hodName: school.hodName,
+    hodMobile: school.hodPhone,
+    hodEmail: school.hodEmail,
+    contactPerson: school.contactPersonName,
+    contactPersonDesignation: school.contactPersonDesignation,
+    mobile: school.contactPersonPhone,
+    email: school.contactPersonEmail,
+    schoolType: school.schoolTypeId,
+    address: school.schoolAddress,
+    latitude: school.latitude,
+    longitude: school.longitude
+  });
 
-    this.schoolForm.addControl('schoolID', this.fb.control(school.schoolID));
-  }
+  this.schoolForm.addControl('schoolID', this.fb.control(school.schoolID));
+}
+
 
   fetchDistricts(stateId: number): void {
     this.api.getDistrictsByState(stateId).subscribe({
