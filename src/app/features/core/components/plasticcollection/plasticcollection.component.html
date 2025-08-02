@@ -16,13 +16,19 @@
         <mat-option *ngFor="let s of sectionList" [value]="s.sectionID">{{ s.sectionName }}</mat-option>
       </mat-select>
     </mat-form-field>
+<mat-form-field appearance="outline" floatLabel="always">
+  <mat-label>Collection Date</mat-label>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [(ngModel)]="collectionDate"
+    [max]="today" 
+    (dateChange)="onFiltersChange()"
+  />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
 
-    <mat-form-field appearance="outline" floatLabel="always">
-      <mat-label>Collection Date</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="collectionDate" (dateChange)="onFiltersChange()" />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
   </div>
 
   <form [formGroup]="collectionForm" (ngSubmit)="onSubmit()">

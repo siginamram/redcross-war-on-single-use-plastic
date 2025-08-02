@@ -19,7 +19,7 @@ export class PlasticcollectionComponent implements OnInit {
   selectedClass: number | null = null;
   selectedSection: number | null = null;
   schoolId: number = Number(localStorage.getItem('schoolID'));
-
+  today: Date = new Date();
   constructor(
     private fb: FormBuilder,
     private api: CoreApiService,
