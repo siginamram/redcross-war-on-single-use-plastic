@@ -53,6 +53,7 @@ import { VolunteersBulkUploadComponent } from './components/volunteers-bulk-uplo
 import { SchoolRegisterStudentFormComponent } from './components/school-register-student-form/school-register-student-form.component';
 import { SchoolRegisterStudentListComponent } from './components/school-register-student-list/school-register-student-list.component';
 import { SchoolRegisterStudentBulkUploadComponent } from './components/school-register-student-bulk-upload/school-register-student-bulk-upload.component';
+import { StudentsRewardTransactionsComponent } from './components/students-reward-transactions/students-reward-transactions.component';
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { SchoolRegisterStudentBulkUploadComponent } from './components/school-re
     SchoolRegisterStudentFormComponent,
     SchoolRegisterStudentListComponent,
     SchoolRegisterStudentBulkUploadComponent,
+    StudentsRewardTransactionsComponent,
     
   ],
   imports: [
@@ -114,6 +116,7 @@ import { SchoolRegisterStudentBulkUploadComponent } from './components/school-re
     MatProgressBarModule,
     MatBottomSheetModule,
     HttpClientModule,
+  
   ]
 })
 export class CoreModule { }

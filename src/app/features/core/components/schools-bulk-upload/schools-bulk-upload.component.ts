@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { CoreApiService } from '../../services/core-api.service';
 import * as XLSX from 'xlsx';
-import { AlertDialogComponent } from '../../../../shared/components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from '../../../../shared/components/alert-dialog/alert-dialog.component';
+import { CoreApiService } from '../../services/core-api.service';
 
 @Component({
   selector: 'app-schools-bulk-upload',
@@ -12,11 +12,18 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SchoolsBulkUploadComponent {
   selectedFileName: string = '';
+  schoolList: any[] = [];
+  hasValidationErrors: boolean = false;
 
-  constructor(
-    private coreApiService: CoreApiService,
-    private dialog: MatDialog
-  ) {}
+  displayedColumns: string[] = [
+    'schoolName', 'hodName', 'hodPhone', 'hodEmail',
+    'contactPersonName', 'contactPersonPhone', 'contactPersonEmail',
+    'contactPersonDesignation', 'schoolTypeId', 'schoolAddress',
+    'latitude', 'longitude', 'clusterId', 'zoneID',
+    'cityID', 'districtID', 'stateID'
+  ];
+
+  constructor(private coreApiService: CoreApiService, private dialog: MatDialog) {}
 
   triggerFileInput(fileInput: HTMLInputElement): void {
     fileInput.click();
@@ -28,82 +35,80 @@ export class SchoolsBulkUploadComponent {
 
     this.selectedFileName = file.name;
 
-    const reader: FileReader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (e: any) => {
       try {
         const data = new Uint8Array(e.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        let jsonData: any[] = XLSX.utils.sheet_to_json(worksheet);
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet);
 
-        // Convert phone numbers to string
-        jsonData = jsonData.map((school: any) => ({
-          ...school,
-          hodPhone: school.hodPhone?.toString() ?? '',
-          contactPersonPhone: school.contactPersonPhone?.toString() ?? ''
+        this.schoolList = jsonData.map((entry) => ({
+          schoolName: entry.schoolName || '',
+          hodName: entry.hodName || '',
+          hodPhone: entry.hodPhone?.toString() || '',
+          hodEmail: entry.hodEmail || '',
+          contactPersonName: entry.contactPersonName || '',
+          contactPersonPhone: entry.contactPersonPhone?.toString() || '',
+          contactPersonEmail: entry.contactPersonEmail || '',
+          contactPersonDesignation: entry.contactPersonDesignation || '',
+          schoolTypeId: entry.schoolTypeId || '',
+          schoolAddress: entry.schoolAddress || '',
+          latitude: entry.latitude?.toString() || '',
+          longitude: entry.longitude?.toString() || '',
+          clusterId: entry.clusterId || '',
+          zoneID: entry.zoneID || '',
+          cityID: entry.cityID || '',
+          districtID: entry.districtID || '',
+          stateID: entry.stateID || ''
         }));
 
-        // Validate required fields
-        const requiredFields = [
-          'schoolName', 'hodName', 'hodPhone', 'hodEmail',
-          'contactPersonName', 'contactPersonPhone', 'contactPersonEmail',
-          'contactPersonDesignation', 'schoolTypeId', 'schoolAddress',
-          'latitude', 'longitude', 'clusterId', 'zoneID',
-          'cityID', 'districtID', 'stateID'
-        ];
-
-        const invalidEntries = jsonData.filter((item, index) => {
-          for (const field of requiredFields) {
-            if (
-              item[field] === undefined ||
-              item[field] === null ||
-              item[field].toString().trim() === ''
-            ) {
-              console.warn(`Missing field "${field}" in row ${index + 2}`);
-              return true;
-            }
-          }
-          return false;
-        });
-
-        if (invalidEntries.length > 0) {
-          this.openAlertDialog(
-            'Validation Error',
-            'Some rows are missing required fields. Please fix the Excel and try again.',
-            'warning'
-          );
-          return;
-        }
-
-        // Send to API
-        this.uploadSchools(jsonData);
-
+        this.validateData();
       } catch (err) {
-        console.error('Error parsing file:', err);
-        this.openAlertDialog(
-          'File Error',
-          'Failed to read the Excel file. Make sure it is valid and not corrupted.',
-          'error'
-        );
+        this.openAlertDialog('Error', 'Failed to read the file.', 'error');
       }
     };
 
     reader.readAsArrayBuffer(file);
   }
 
-  uploadSchools(data: any[]): void {
-    this.coreApiService.BulkUploadSchool(data).subscribe({
+  validateData(): void {
+    const requiredFields = this.displayedColumns;
+    this.hasValidationErrors = this.schoolList.some((entry) =>
+      requiredFields.some((field) => !entry[field] || entry[field].toString().trim() === '')
+    );
+
+    if (this.hasValidationErrors) {
+      this.openAlertDialog(
+        'Validation Error',
+        'Some rows have missing required fields. Please correct the Excel and try again.',
+        'warning'
+      );
+    }
+  }
+
+  uploadSchools(): void {
+    if (this.hasValidationErrors) {
+      this.openAlertDialog('Fix Errors', 'Resolve validation issues before submitting.', 'error');
+      return;
+    }
+
+    this.coreApiService.BulkUploadSchool(this.schoolList).subscribe({
       next: () => {
         this.openAlertDialog('Success', 'Schools uploaded successfully!', 'success');
-        this.selectedFileName = '';
+        this.resetForm();
       },
       error: (err) => {
-        console.error('Upload error:', err);
-        const backendError = this.extractErrorMessage(err);
-        this.openAlertDialog('Upload Failed', backendError, 'error');
+        const msg = this.extractErrorMessage(err);
+        this.openAlertDialog('Upload Failed', msg, 'error');
       }
     });
+  }
+
+  resetForm(): void {
+    this.selectedFileName = '';
+    this.schoolList = [];
+    this.hasValidationErrors = false;
   }
 
   openAlertDialog(title: string, message: string, type: string): void {
@@ -115,11 +120,8 @@ export class SchoolsBulkUploadComponent {
 
   extractErrorMessage(error: any): string {
     if (error?.error?.errors) {
-      const messages = Object.values(error.error.errors)
-        .flat()
-        .map((msg: any) => `• ${msg}`);
-      return messages.join('\n');
+      return Object.values(error.error.errors).flat().join('\n');
     }
-    return 'An unexpected error occurred. Please check the console.';
+    return 'An unexpected error occurred.';
   }
 }

@@ -1,1 +1,71 @@
-<p>volunteers-bulk-upload works!</p>
+<div class="upload-card mat-elevation-z2">
+  <h2 style="color: green;">
+    <mat-icon>volunteer_activism</mat-icon> Volunteer Bulk Upload
+  </h2>
+
+   <div class="upload-btns">
+    <button mat-raised-button color="primary" (click)="triggerFileInput(fileInput)">
+      <mat-icon>upload</mat-icon> Select Excel File
+    </button>
+    <span class="filename" *ngIf="selectedFileName">{{ selectedFileName }}</span>
+    <input #fileInput type="file" accept=".xlsx, .xls" hidden (change)="onFileSelected($event)" />
+  </div>
+
+  <p class="note">* Only Excel files (.xlsx, .xls) are supported.</p>
+
+  <div class="divider"></div>
+
+  <!-- Preview Table -->
+  <div class="table-wrapper" *ngIf="volunteerList.length > 0">
+    <table mat-table [dataSource]="volunteerList" class="mat-elevation-z1">
+
+      <ng-container matColumnDef="volunteerName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let v"> {{ v.volunteerName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mobileNo">
+        <th mat-header-cell *matHeaderCellDef> Mobile No </th>
+        <td mat-cell *matCellDef="let v"> {{ v.mobileNo }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let v"> {{ v.email }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let v"> {{ v.address }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="organization">
+        <th mat-header-cell *matHeaderCellDef> Organization </th>
+        <td mat-cell *matCellDef="let v"> {{ v.organization }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- Submit & Cancel Buttons -->
+  <div class="actions" *ngIf="volunteerList.length > 0">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="uploadVolunteers()"
+      [disabled]="hasValidationErrors"
+    >
+      Submit Volunteers
+    </button>
+
+    <button mat-stroked-button color="warn" (click)="resetForm()">
+      Cancel
+    </button>
+
+    <p *ngIf="hasValidationErrors" class="error-msg">
+      Please fix the Excel file. Some required fields are missing.
+    </p>
+  </div>
+</div>

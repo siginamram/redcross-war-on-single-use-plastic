@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CoreApiService } from '../../services/core-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SchoolRegisterStudentFormComponent } from '../school-register-student-form/school-register-student-form.component';
+import {StudentsRewardTransactionsComponent} from '../students-reward-transactions/students-reward-transactions.component';
 
 @Component({
   selector: 'app-school-register-student-list',
@@ -81,4 +82,12 @@ export class SchoolRegisterStudentListComponent implements OnInit, AfterViewInit
       }
     });
   }
+
+  openRewardPopup(row: any): void {
+  this.dialog.open(StudentsRewardTransactionsComponent, {
+    width: '1000px',
+    data: { studentID: row.studentID },
+    autoFocus: false
+  });
+}
 }

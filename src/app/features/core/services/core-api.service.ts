@@ -152,4 +152,14 @@ BulkUploadStudent(payload: any): Observable<any> {
   });
 }
 
+BulkUploadVolunteer(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/BulkUploadVolunteer`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+GetRewardTransaction(StudentId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetRewardTransaction/${StudentId}`);
+}
+
 }

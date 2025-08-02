@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CoreApiService } from '../../services/core-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentsFormComponent } from '../students-form/students-form.component';
+import { StudentsRewardTransactionsComponent } from '../students-reward-transactions/students-reward-transactions.component';
 
 @Component({
   selector: 'app-students-list',
@@ -89,6 +90,14 @@ ngAfterViewInit() {
         if (result === 'refresh') {
           this.onSchoolChange();
         }
+      });
+    }
+
+      openRewardPopup(row: any): void {
+      this.dialog.open(StudentsRewardTransactionsComponent, {
+        width: '1000px',
+        data: { studentID: row.studentID },
+        autoFocus: false
       });
     }
 }
