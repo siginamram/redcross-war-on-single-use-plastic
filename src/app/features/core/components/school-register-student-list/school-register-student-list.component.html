@@ -4,31 +4,24 @@
       <h2><mat-icon class="header-icon">group</mat-icon> Manage Students</h2>
       <p>View registered students or add a new one.</p>
     </div>
-    <button mat-raised-button color="primary" [routerLink]="['/home/core/students-form']">
+    <button mat-raised-button color="primary" [routerLink]="['/home/core/school-students-form']">
       <mat-icon>person_add</mat-icon> Add Student
     </button>
   </div>
 
   <!-- Filters -->
   <div class="filter-row">
-    <mat-form-field appearance="outline">
-      <mat-label>Zone</mat-label>
-      <mat-select [(value)]="selectedZone" (selectionChange)="onZoneChange()">
-        <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Class</mat-label>
+      <mat-select [(value)]="selectedClass" (selectionChange)="onSchoolChange()">
+        <mat-option *ngFor="let c of classList" [value]="c.classID">{{ c.className }}</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Cluster</mat-label>
-      <mat-select [(value)]="selectedCluster" (selectionChange)="onClusterChange()">
-        <mat-option *ngFor="let cluster of clusters" [value]="cluster.clusterId">{{ cluster.clusterName }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>School</mat-label>
-      <mat-select [(value)]="selectedSchool" (selectionChange)="onSchoolChange()">
-        <mat-option *ngFor="let school of schools" [value]="school.schoolID">{{ school.schoolName }}</mat-option>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Section</mat-label>
+      <mat-select [(value)]="selectedSection" (selectionChange)="onSchoolChange()">
+        <mat-option *ngFor="let s of sectionList" [value]="s.sectionID">{{ s.sectionName }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>

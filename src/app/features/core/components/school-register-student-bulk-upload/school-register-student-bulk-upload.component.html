@@ -1,0 +1,66 @@
+<mat-card class="upload-card">
+  <h2><mat-icon>upload_file</mat-icon> Student Bulk Upload</h2>
+  <p>Upload an Excel file with the following columns:</p>
+
+  <ul>
+    <li><strong>studentName</strong></li>
+    <li><strong>gender</strong> (1 for Male, 2 for Female)</li>
+    <li><strong>rollNumber</strong></li>
+    <li><strong>photoLink</strong></li>
+    <li><strong>classID</strong></li>
+    <li><strong>sectionID</strong></li>
+  </ul>
+
+  <input #fileInput type="file" hidden (change)="onFileSelected($event)" />
+  <button mat-raised-button color="primary" (click)="triggerFileInput(fileInput)">
+    <mat-icon>file_upload</mat-icon> Choose File
+  </button>
+  <span *ngIf="selectedFileName" style="margin-left: 10px;">{{ selectedFileName }}</span>
+
+  <div *ngIf="studentList.length" class="preview-table">
+    <h3>Preview Uploaded Students</h3>
+    <table mat-table [dataSource]="studentList" class="mat-elevation-z2 full-width">
+
+      <ng-container matColumnDef="studentName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let row"> {{ row.studentName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef> Gender </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.gender === 1 ? 'Male' : row.gender === 2 ? 'Female' : 'Other' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rollNumber">
+        <th mat-header-cell *matHeaderCellDef> Roll No </th>
+        <td mat-cell *matCellDef="let row"> {{ row.rollNumber }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="photoLink">
+        <th mat-header-cell *matHeaderCellDef> Photo </th>
+        <td mat-cell *matCellDef="let row">
+          <a [href]="row.photoLink" target="_blank">View</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="classID">
+        <th mat-header-cell *matHeaderCellDef> Class ID </th>
+        <td mat-cell *matCellDef="let row"> {{ row.classID }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sectionID">
+        <th mat-header-cell *matHeaderCellDef> Section ID </th>
+        <td mat-cell *matCellDef="let row"> {{ row.sectionID }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['studentName','gender','rollNumber','photoLink','classID','sectionID']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['studentName','gender','rollNumber','photoLink','classID','sectionID']"></tr>
+    </table>
+
+    <button mat-raised-button color="accent" style="margin-top: 20px;" (click)="uploadStudents()">
+      <mat-icon>cloud_upload</mat-icon> Submit to Server
+    </button>
+  </div>
+</mat-card>

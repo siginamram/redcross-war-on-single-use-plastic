@@ -52,9 +52,10 @@
       </div>
 
       <div class="form-actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="clusterForm.invalid">
+        <button mat-flat-button color="primary" style="background-color:#2e7d32; color:white;" type="submit" [disabled]="clusterForm.invalid">
           <mat-icon>save</mat-icon> Submit
         </button>
+        <button mat-stroked-button type="button" color="warn" (click)="onCancel()">Cancel</button>
       </div>
     </form>
   </mat-card>

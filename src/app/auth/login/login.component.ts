@@ -49,13 +49,15 @@ export class LoginComponent implements OnInit {
         // Store required data in localStorage
         localStorage.setItem('token', response.token);
         localStorage.setItem('username', response.username);
-       // localStorage.setItem('role', response.roleName);
-       // localStorage.setItem('roleID', response.roleID);
         localStorage.setItem('role', JSON.stringify(response.roleName));
         localStorage.setItem('roleID', JSON.stringify(response.roleID));
         localStorage.setItem('fullName', response.fullName);
         localStorage.setItem('email', response.email);
         localStorage.setItem('schoolID',JSON.stringify(response.schoolID));
+        localStorage.setItem('districtID',JSON.stringify(response.districtID));
+        localStorage.setItem('cityID',JSON.stringify(response.cityID));
+        localStorage.setItem('zoneID',JSON.stringify(response.zoneID));
+        localStorage.setItem('clusterId',JSON.stringify(response.clusterId));
 
               // Navigate based on the role
           this.navigateBasedOnRole(response.roleID);

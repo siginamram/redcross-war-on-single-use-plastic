@@ -49,6 +49,10 @@ import { VolunteersAddComponent } from './components/volunteers-add/volunteers-a
 import { VolunteersListComponent } from './components/volunteers-list/volunteers-list.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { UserUpdatePopupComponent } from './components/user-update-popup/user-update-popup.component';
+import { VolunteersBulkUploadComponent } from './components/volunteers-bulk-upload/volunteers-bulk-upload.component';
+import { SchoolRegisterStudentFormComponent } from './components/school-register-student-form/school-register-student-form.component';
+import { SchoolRegisterStudentListComponent } from './components/school-register-student-list/school-register-student-list.component';
+import { SchoolRegisterStudentBulkUploadComponent } from './components/school-register-student-bulk-upload/school-register-student-bulk-upload.component';
 
 
 @NgModule({
@@ -69,6 +73,10 @@ import { UserUpdatePopupComponent } from './components/user-update-popup/user-up
     VolunteersListComponent,
     UserListComponent,
     UserUpdatePopupComponent,
+    VolunteersBulkUploadComponent,
+    SchoolRegisterStudentFormComponent,
+    SchoolRegisterStudentListComponent,
+    SchoolRegisterStudentBulkUploadComponent,
     
   ],
   imports: [

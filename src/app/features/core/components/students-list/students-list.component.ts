@@ -20,6 +20,7 @@ export class StudentsListComponent implements OnInit {
     'rollNumber',
     'gender',
     'photoLink',
+    'rewardPoint',
     'actions'
   ];
 
@@ -68,7 +69,7 @@ ngAfterViewInit() {
       return;
     }
 
-    this.api.getStudentsBySchool(this.selectedSchool).subscribe({
+    this.api.getStudentsBySchool(this.selectedSchool,0,0).subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource<any>(res);
         this.dataSource.paginator = this.paginator;

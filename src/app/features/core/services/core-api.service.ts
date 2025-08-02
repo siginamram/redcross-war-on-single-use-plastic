@@ -72,8 +72,8 @@ getSchoolsByZone(ZoneId: number): Observable<any> {
   return this.http.get(`${this.baseApiUrl}/api/School/GetSchoolsByZone/${ZoneId}`);
 }
 
-getStudentsBySchool(SchoolId: number): Observable<any> {
-  return this.http.get(`${this.baseApiUrl}/api/School/GetStudentsBySchool/${SchoolId}`);
+getStudentsBySchool(SchoolId: number,ClassId :number,SectionId:number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetStudentsBySchool/${SchoolId}/${ClassId}/${SectionId}`);
 }
 
 getStudentsByClass(ClassId: number): Observable<any> {
@@ -136,6 +136,18 @@ GetPlasticCollectionsByClass(payload: any): Observable<any> {
 
 BulkUploadPlasticCollection(payload: any): Observable<any> {
   return this.http.post(`${this.baseApiUrl}/api/School/BulkUploadPlasticCollection`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+BulkUploadSchool(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/BulkUploadSchool`, payload, {
+    responseType: 'text' as 'json',
+  });
+}
+
+BulkUploadStudent(payload: any): Observable<any> {
+  return this.http.post(`${this.baseApiUrl}/api/School/BulkUploadStudent`, payload, {
     responseType: 'text' as 'json',
   });
 }

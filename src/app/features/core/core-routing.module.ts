@@ -16,6 +16,11 @@ import { VolunteersListComponent } from './components/volunteers-list/volunteers
 import { VolunteersAddComponent } from './components/volunteers-add/volunteers-add.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { UserUpdatePopupComponent } from './components/user-update-popup/user-update-popup.component';
+import { VolunteersBulkUploadComponent } from './components/volunteers-bulk-upload/volunteers-bulk-upload.component';
+import { SchoolRegisterStudentFormComponent } from './components/school-register-student-form/school-register-student-form.component';
+import { SchoolRegisterStudentListComponent } from './components/school-register-student-list/school-register-student-list.component';
+import { SchoolRegisterStudentBulkUploadComponent } from './components/school-register-student-bulk-upload/school-register-student-bulk-upload.component';
+
 
 const routes: Routes = [
   { 
@@ -33,6 +38,7 @@ const routes: Routes = [
 
       {path: 'Volunteers-list', component: VolunteersListComponent },
       {path: 'Volunteers-form', component: VolunteersAddComponent },
+      {path: 'Volunteers-bulk-upload', component: VolunteersBulkUploadComponent },
 
       {path: 'schools-form', component: SchoolsFormComponent },
       {path: 'schools-list', component: SchoolsListComponent },
@@ -41,6 +47,10 @@ const routes: Routes = [
       {path: 'students-form', component: StudentsFormComponent },
       {path: 'students-list', component: StudentsListComponent },
       {path: 'students-bulk-upload', component: StudentsBulkUploadComponent },
+
+      {path: 'school-students-form', component: SchoolRegisterStudentFormComponent },
+      {path: 'school-students-list', component: SchoolRegisterStudentListComponent },
+      {path: 'school-students-bulk-upload', component: SchoolRegisterStudentBulkUploadComponent },
 
       {path: 'plastic-collection', component: PlasticcollectionComponent }
     ]

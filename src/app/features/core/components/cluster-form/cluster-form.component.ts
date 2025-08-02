@@ -75,4 +75,8 @@ export class ClusterFormComponent implements OnInit {
       data: { title, message, type },
     });
   }
+
+    onCancel(): void {
+    history.back();
+  }
 }

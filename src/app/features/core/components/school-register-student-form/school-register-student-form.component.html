@@ -6,30 +6,6 @@
 
   <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="form-grid">
 
- <!-- Zone -->
-<mat-form-field appearance="outline" *ngIf="!isPopupMode">
-  <mat-label>Zone</mat-label>
-  <mat-select formControlName="zone" (selectionChange)="onZoneChange()">
-    <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
-  </mat-select>
-</mat-form-field>
-
-<!-- Cluster -->
-<mat-form-field appearance="outline" *ngIf="!isPopupMode">
-  <mat-label>Cluster</mat-label>
-  <mat-select formControlName="cluster" (selectionChange)="onClusterChange()">
-    <mat-option *ngFor="let cluster of clusters" [value]="cluster.clusterId">{{ cluster.clusterName }}</mat-option>
-  </mat-select>
-</mat-form-field>
-
-<!-- School -->
-<mat-form-field appearance="outline" *ngIf="!isPopupMode">
-  <mat-label>School Name</mat-label>
-  <mat-select formControlName="schoolName">
-    <mat-option *ngFor="let school of schools" [value]="school.schoolID">{{ school.schoolName }}</mat-option>
-  </mat-select>
-</mat-form-field>
-
     <mat-form-field appearance="outline">
       <mat-label>Student Name</mat-label>
       <input matInput formControlName="studentName" placeholder="Enter student’s full name" />
@@ -73,7 +49,7 @@
 
     <div class="action-buttons">
       <button mat-raised-button type="submit" style="background-color: #2e7d32; color: white; border-radius: 10px;">
-        Add Student
+         {{ isPopupMode ? 'Update Student' : 'Register a New Student' }}
       </button>
       <button mat-stroked-button color="warn" type="button" style="background-color: red; color: white; border-radius: 10px;" (click)="onCancel()">Cancel</button>
     </div>
