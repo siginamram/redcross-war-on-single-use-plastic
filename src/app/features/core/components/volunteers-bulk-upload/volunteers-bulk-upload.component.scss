@@ -101,3 +101,13 @@
     }
   }
 }
+
+.download-template-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+
+  button {
+    min-width: 220px;
+  }
+}

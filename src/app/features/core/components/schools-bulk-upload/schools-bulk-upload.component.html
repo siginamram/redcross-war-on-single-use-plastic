@@ -3,7 +3,11 @@
   <mat-icon style="margin-right: 8px;">school</mat-icon>
   School Bulk Upload
 </h2>
-
+<div class="download-template-wrapper">
+  <button mat-stroked-button color="accent" (click)="downloadExcelTemplate()">
+    <mat-icon>download</mat-icon> Download Excel Template
+  </button>
+</div>
   <div class="upload-box">
     <button mat-raised-button color="primary" (click)="triggerFileInput(fileInput)">
       <mat-icon>upload</mat-icon> Select Excel File

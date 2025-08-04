@@ -124,4 +124,21 @@ export class SchoolsBulkUploadComponent {
     }
     return 'An unexpected error occurred.';
   }
+
+  downloadExcelTemplate(): void {
+  const headers = [
+    'schoolName', 'hodName', 'hodPhone', 'hodEmail',
+    'contactPersonName', 'contactPersonPhone', 'contactPersonEmail',
+    'contactPersonDesignation', 'schoolTypeId', 'schoolAddress',
+    'latitude', 'longitude', 'clusterId', 'zoneID',
+    'cityID', 'districtID', 'stateID'
+  ];
+
+  const worksheet = XLSX.utils.aoa_to_sheet([headers]);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Template');
+  XLSX.writeFile(workbook, 'School_Bulk_Upload_Template.xlsx');
+}
+
+
 }

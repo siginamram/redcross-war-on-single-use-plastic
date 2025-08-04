@@ -119,4 +119,15 @@ export class VolunteersBulkUploadComponent {
     this.volunteerList = [];
     this.hasValidationErrors = false;
   }
+
+      downloadExcelTemplate(): void {
+      const headers = [
+      'volunteerName', 'mobileNo', 'email', 'address', 'organization'
+      ];
+    
+      const worksheet = XLSX.utils.aoa_to_sheet([headers]);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Template');
+      XLSX.writeFile(workbook, 'Volunteers_Bulk_Upload_Template.xlsx');
+    }
 }

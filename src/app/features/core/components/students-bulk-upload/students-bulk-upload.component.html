@@ -1,13 +1,17 @@
-<div class="upload-container mat-elevation-z2">
-  <h2>Students Bulk Upload</h2>
-
-  <div class="upload-box">
+<div class="upload-card mat-elevation-z2">
+  <h2 style="color: green;">
+    <mat-icon>group_add</mat-icon> Student Bulk Upload
+  </h2>
+<div class="download-template-wrapper">
+  <button mat-stroked-button color="accent" (click)="downloadExcelTemplate()">
+    <mat-icon>download</mat-icon> Download Excel Template
+  </button>
+</div>
+  <div class="upload-btns">
     <button mat-raised-button color="primary" (click)="triggerFileInput(fileInput)">
       <mat-icon>upload</mat-icon> Select Excel File
     </button>
-
-    <span class="file-name" *ngIf="selectedFileName">{{ selectedFileName }}</span>
-
+    <span class="filename" *ngIf="selectedFileName">{{ selectedFileName }}</span>
     <input
       #fileInput
       type="file"
@@ -17,7 +21,79 @@
     />
   </div>
 
-  <p class="note">
-    * Only Excel files (.xlsx, .xls) are supported.
-  </p>
+  <div class="columns-list">
+    <strong>Required Columns:</strong> studentName, gender, rollNumber, classID, sectionID
+  </div>
+
+  <p class="note">* Only Excel files (.xlsx, .xls) are supported.</p>
+
+  <!-- Table Preview -->
+  <div class="table-wrapper" *ngIf="studentList.length > 0">
+    <table mat-table [dataSource]="studentList" class="mat-elevation-z1">
+
+      <!-- Student Name -->
+      <ng-container matColumnDef="studentName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let s"> {{ s.studentName }} </td>
+      </ng-container>
+
+      <!-- Gender -->
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef> Gender </th>
+        <td mat-cell *matCellDef="let s">
+          {{ s.gender === 1 ? 'Male' : s.gender === 2 ? 'Female' : 'Other' }}
+        </td>
+      </ng-container>
+
+      <!-- Roll Number -->
+      <ng-container matColumnDef="rollNumber">
+        <th mat-header-cell *matHeaderCellDef> Roll No </th>
+        <td mat-cell *matCellDef="let s"> {{ s.rollNumber }} </td>
+      </ng-container>
+
+      <!-- Photo Link -->
+      <ng-container matColumnDef="photoLink">
+        <th mat-header-cell *matHeaderCellDef> Photo </th>
+        <td mat-cell *matCellDef="let s">
+          <a [href]="s.photoLink" target="_blank">{{ s.photoLink }}</a>
+        </td>
+      </ng-container>
+
+      <!-- Class ID -->
+      <ng-container matColumnDef="classID">
+        <th mat-header-cell *matHeaderCellDef> Class </th>
+        <td mat-cell *matCellDef="let s"> {{ s.classID }} </td>
+      </ng-container>
+
+      <!-- Section ID -->
+      <ng-container matColumnDef="sectionID">
+        <th mat-header-cell *matHeaderCellDef> Section </th>
+        <td mat-cell *matCellDef="let s"> {{ s.sectionID }} </td>
+      </ng-container>
+
+      <!-- Render Table -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions" *ngIf="studentList.length > 0">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="uploadStudents()"
+      [disabled]="hasValidationErrors"
+    >
+      Submit Students
+    </button>
+
+    <button mat-stroked-button color="warn" (click)="resetForm()">
+      Cancel
+    </button>
+
+    <p *ngIf="hasValidationErrors" class="error-msg">
+      Please fix the Excel file. Some required fields are missing.
+    </p>
+  </div>
 </div>

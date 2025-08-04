@@ -136,4 +136,16 @@ export class SchoolRegisterStudentBulkUploadComponent {
     this.studentList = [];
     this.hasValidationErrors = false;
   }
+
+    downloadExcelTemplate(): void {
+    const headers = [
+      'studentName', 'gender', 'rollNumber', 'classID', 'sectionID'
+    ];
+  
+    const worksheet = XLSX.utils.aoa_to_sheet([headers]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Template');
+    XLSX.writeFile(workbook, 'Student_Bulk_Upload_Template.xlsx');
+  }
+  
 }

@@ -54,6 +54,7 @@ import { SchoolRegisterStudentFormComponent } from './components/school-register
 import { SchoolRegisterStudentListComponent } from './components/school-register-student-list/school-register-student-list.component';
 import { SchoolRegisterStudentBulkUploadComponent } from './components/school-register-student-bulk-upload/school-register-student-bulk-upload.component';
 import { StudentsRewardTransactionsComponent } from './components/students-reward-transactions/students-reward-transactions.component';
+import { UserAddComponent } from './components/user-add/user-add.component';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { StudentsRewardTransactionsComponent } from './components/students-rewar
     SchoolRegisterStudentListComponent,
     SchoolRegisterStudentBulkUploadComponent,
     StudentsRewardTransactionsComponent,
+    UserAddComponent,
     
   ],
   imports: [

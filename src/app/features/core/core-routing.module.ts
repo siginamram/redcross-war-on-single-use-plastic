@@ -20,7 +20,7 @@ import { VolunteersBulkUploadComponent } from './components/volunteers-bulk-uplo
 import { SchoolRegisterStudentFormComponent } from './components/school-register-student-form/school-register-student-form.component';
 import { SchoolRegisterStudentListComponent } from './components/school-register-student-list/school-register-student-list.component';
 import { SchoolRegisterStudentBulkUploadComponent } from './components/school-register-student-bulk-upload/school-register-student-bulk-upload.component';
-
+import { UserAddComponent } from './components/user-add/user-add.component';
 
 const routes: Routes = [
   { 
@@ -29,6 +29,7 @@ const routes: Routes = [
     [
       {path: 'users-list', component: UserListComponent },
       {path: 'users-form', component: UserUpdatePopupComponent },
+      {path: 'users-add', component: UserAddComponent },
 
       {path: 'zone-list', component: ZonesListComponent },
       {path: 'zone-form', component: ZonesFormComponent },

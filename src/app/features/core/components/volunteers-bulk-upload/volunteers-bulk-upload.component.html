@@ -2,7 +2,11 @@
   <h2 style="color: green;">
     <mat-icon>volunteer_activism</mat-icon> Volunteer Bulk Upload
   </h2>
-
+    <div class="download-template-wrapper">
+      <button mat-stroked-button color="accent" (click)="downloadExcelTemplate()">
+        <mat-icon>download</mat-icon> Download Excel Template
+      </button>
+    </div>
    <div class="upload-btns">
     <button mat-raised-button color="primary" (click)="triggerFileInput(fileInput)">
       <mat-icon>upload</mat-icon> Select Excel File
