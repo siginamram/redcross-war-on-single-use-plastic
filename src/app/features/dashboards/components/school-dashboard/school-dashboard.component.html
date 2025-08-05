@@ -4,27 +4,33 @@
     School Dashboard
     </h2>
   <div class="filter-section">
-    <mat-form-field appearance="outline">
-      <mat-label>From Date</mat-label>
-      <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate">
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>From Date</mat-label>
+  <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate">
+  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>To Date</mat-label>
-      <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate">
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>To Date</mat-label>
+  <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate">
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>
 
-    <button mat-raised-button class="primary" style="background-color: #2e7d32; color: white; border-radius: 10px;">
-    <mat-icon>filter_alt</mat-icon>
-    Apply Filter
-    </button>
+  <button mat-raised-button class="primary"
+  style="background-color: #2e7d32; color: white; border-radius: 10px;"
+  (click)="getDashboardData()">
+  <mat-icon>filter_alt</mat-icon>
+  Apply Filter
+</button>
   </div>
-
+    <h2 class="section-heading">
+  <mat-icon class="section-icon">insights</mat-icon>
+  Overall Performance
+</h2>
   <div class="cards-section">
+
   <div class="card" *ngFor="let card of stats">
   <div class="card-content">
     <div class="card-text">
@@ -38,10 +44,7 @@
 
   </div>
 
-<h2 class="section-heading">
-  <mat-icon class="section-icon">insights</mat-icon>
-  Overall Performance
-</h2>
+
   <div class="cards-section">
     <div class="card" *ngFor="let card of overall">
     <div class="card-content">
@@ -129,10 +132,10 @@
         <td mat-cell *matCellDef="let row">{{ row.section }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="weeks">
+      <!-- <ng-container matColumnDef="weeks">
         <th mat-header-cell *matHeaderCellDef><mat-icon>calendar_today</mat-icon> Weeks</th>
         <td mat-cell *matCellDef="let row">{{ row.weeks }}</td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="collected">
         <th mat-header-cell *matHeaderCellDef><mat-icon>recycling</mat-icon> Plastic (KG)</th>

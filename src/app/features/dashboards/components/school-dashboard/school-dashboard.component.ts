@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'app-school-dashboard',
@@ -6,35 +7,71 @@ import { Component } from '@angular/core';
   templateUrl: './school-dashboard.component.html',
   styleUrls: ['./school-dashboard.component.scss']
 })
-export class SchoolDashboardComponent {
-  fromDate = new Date();
-  toDate = new Date();
+export class SchoolDashboardComponent implements OnInit {
+  fromDate: Date;
+  toDate: Date;
+  today = new Date();
 
- stats = [
-  { title: 'Total Students', value: 560, sub: 'Across all classes', icon: 'groups' },
-  { title: 'Total Participation', value: '410', sub: 'Last 4 weeks', icon: 'how_to_reg' },
-  { title: 'Total Plastic Collected', value: '145.5 KG', sub: 'Across schools', icon: 'recycling' },
-  { title: 'Average Participation', value: '73.2%', sub: 'School-wide', icon: 'leaderboard' }
-];
-
-overall = [
-  { title: 'School Participation', value: '78%', sub: 'This month', icon: 'insights' },
-  { title: 'Plastic Collected', value: '145 KG', sub: 'Last 4 weeks', icon: 'delete_outline' },
-  { title: 'Active Classes', value: 18, sub: 'From 3rd to 10th', icon: 'school' },
-  { title: 'Top Class', value: '8-A', sub: 'Highest contribution', icon: 'emoji_events' }
-];
-
-
+  schoolId: number = Number(localStorage.getItem('schoolID'));
+  stats: any[] = [];
+  overall: any[] = [];
   displayedColumns = ['class', 'section', 'total', 'participated', 'rate', 'plastic'];
-  classData = [
-    { class: '10', section: 'A', total: 45, participated: 42, rate: '93.3%', plastic: 285.6 },
-    { class: '10', section: 'B', total: 44, participated: 38, rate: '86.4%', plastic: 267.8 },
-    { class: '9', section: 'A', total: 46, participated: 41, rate: '89.1%', plastic: 298.4 }
-  ];
+  classData: any[] = [];
 
-  topColumns = ['rank', 'name', 'roll', 'class', 'section', 'weeks', 'collected'];
-  topPerformers = [
-    { rank: '#1', name: 'Arjun Sharma', roll: '2023001', class: 10, section: 'A', weeks: '24/24', collected: 45.8 },
-    { rank: '#2', name: 'Priya Patel', roll: '2023045', class: 9, section: 'B', weeks: '23/24', collected: 42.3 }
-  ];
+  topColumns = ['rank', 'name', 'roll', 'class', 'section',  'collected'];
+  topPerformers: any[] = [];
+
+  constructor(private api: DashboardService) {
+    this.today = new Date();
+
+    // Set default fromDate as 1st day of current month
+    this.fromDate = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+
+    // Set default toDate as last day of current month
+    this.toDate = new Date(this.today.getFullYear(), this.today.getMonth() + 1, 0);
+  }
+
+  ngOnInit(): void {
+    this.getDashboardData();
+  }
+
+  getDashboardData(): void {
+    const fdate = this.fromDate.toISOString().split('T')[0];
+    const tdate = this.toDate.toISOString().split('T')[0];
+
+    this.api.GetSchoolDashboard(fdate, tdate, this.schoolId).subscribe({
+      next: (res) => {
+        this.stats = [
+          { title: 'Total Students', value: res.totalStudents, icon: 'groups' },
+          { title: 'Participated', value: res.participatingStudents, icon: 'check_circle' },
+          { title: 'Participation %', value: res.participationPercent + '%', icon: 'percent' },
+          { title: 'Plastic Collected', value: res.totalKgsCollected + ' KG', icon: 'recycling' },
+          { title: 'Top Performing Class', value: res.topClass, icon: 'emoji_events' },
+        ];
+
+
+        this.classData = (res.sectionWiseCollection || []).map((item: any, index: number)=> ({
+          class: item.className,
+          section: item.sectionName,
+          total: item.totalStudents,
+          participated: item.participatedCount,
+          rate: item.participationPercent + '%',
+          plastic: item.totalWeightKG + ' KG',
+        }));
+
+          this.topPerformers = (res.topStudents || []).map((item:any, index: number) => ({
+          rank: index + 1,
+          name: item.studentName,
+          roll: item.rollNumber,
+          class: item.className,
+          section: item.sectionName,
+          weeks: '-', // Placeholder if not available
+          collected: item.totalWasteKG + ' KG',
+        }));
+      },
+      error: (err) => {
+        console.error('Error fetching dashboard data:', err);
+      }
+    });
+  }
 }

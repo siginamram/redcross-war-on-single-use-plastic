@@ -1,40 +1,62 @@
 <div class="cluster-form-container">
   <mat-card>
-    <h2><mat-icon>group_work</mat-icon> Add / Update Cluster</h2>
+    <h2><mat-icon>group_work</mat-icon> 
+       {{ isUpdateMode ? 'Update Cluster' : 'Add New Cluster' }}
+    </h2>
 
     <form [formGroup]="clusterForm" (ngSubmit)="onSubmit()">
       <div class="form-fields">
+        <!-- District Dropdown (Add Mode Only) -->
+      <mat-form-field appearance="outline" *ngIf="!isUpdateMode">
+        <mat-label>District</mat-label>
+        <mat-select [(value)]="selectedDistrict" (selectionChange)="onDistrictChange()">
+          <mat-option *ngFor="let district of districts" [value]="district.districtID">
+            {{ district.districtName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <!-- City -->
-<mat-form-field appearance="outline">
-  <mat-label>City</mat-label>
-  <mat-select formControlName="cityID" (selectionChange)="onCityChange($event.value)">
-    <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
-  </mat-select>
-  <mat-error *ngIf="clusterForm.get('cityID')?.hasError('required')">
-    City is required
-  </mat-error>
-</mat-form-field>
+      <!-- City (Add Mode Only) -->
+      <mat-form-field appearance="outline" *ngIf="!isUpdateMode">
+        <mat-label>City</mat-label>
+        <mat-select formControlName="cityID" (selectionChange)="onCityChange($event.value)">
+          <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="clusterForm.get('cityID')?.hasError('required')">
+          City is required
+        </mat-error>
+      </mat-form-field>
 
-<!-- Zone -->
+      <!-- Zone (Add Mode Only) -->
+      <mat-form-field appearance="outline" *ngIf="!isUpdateMode">
+        <mat-label>Zone</mat-label>
+        <mat-select formControlName="zoneID">
+          <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="clusterForm.get('zoneID')?.hasError('required')">
+          Zone is required
+        </mat-error>
+      </mat-form-field>
+
+<!-- Volunteer -->
 <mat-form-field appearance="outline">
-  <mat-label>Zone</mat-label>
-  <mat-select formControlName="zoneID">
-    <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
+  <mat-label>Coordinator</mat-label>
+  <mat-select formControlName="volunteerID">
+    <mat-option *ngFor="let vol of volunteers" [value]="vol.volunteerId">{{ vol.volunteerName }}</mat-option>
   </mat-select>
-  <mat-error *ngIf="clusterForm.get('zoneID')?.hasError('required')">
-    Zone is required
+  <mat-error *ngIf="clusterForm.get('volunteerID')?.hasError('required')">
+    Coordinator is required
   </mat-error>
 </mat-form-field>
 
 <!-- Volunteer -->
 <mat-form-field appearance="outline">
-  <mat-label>Volunteer</mat-label>
-  <mat-select formControlName="volunteerID">
+  <mat-label>Co-Coordinator</mat-label>
+  <mat-select formControlName="volunteerID2">
     <mat-option *ngFor="let vol of volunteers" [value]="vol.volunteerId">{{ vol.volunteerName }}</mat-option>
   </mat-select>
-  <mat-error *ngIf="clusterForm.get('volunteerID')?.hasError('required')">
-    Volunteer is required
+  <mat-error *ngIf="clusterForm.get('volunteerID2')?.hasError('required')">
+    Co-Coordinator is required
   </mat-error>
 </mat-form-field>
 

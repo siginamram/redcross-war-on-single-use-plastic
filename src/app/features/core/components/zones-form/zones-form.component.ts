@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoreApiService } from '../../services/core-api.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertDialogComponent } from '../../../../shared/components/alert-dialog/alert-dialog.component';
 
@@ -14,22 +14,59 @@ import { AlertDialogComponent } from '../../../../shared/components/alert-dialog
 export class ZonesFormComponent implements OnInit {
   zoneForm: FormGroup;
   cities: any[] = [];
+  districts: any[] = [];
+  selectedDistrict: number = 0;
+  stateId: number = 1;
+  isPopup: boolean = false;
+  isUpdateMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private api: CoreApiService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    @Optional() private dialogRef: MatDialogRef<ZonesFormComponent>
   ) {
+    this.isPopup = !!dialogRef;
+
     this.zoneForm = this.fb.group({
-      zoneId: [0], // 0 = new; >0 = update
+      zoneID: [0], // ✅ Use exact key names
       cityID: ['', Validators.required],
       zoneName: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
-    this.api.getCitiesByDistrict(1).subscribe(res => this.cities = res);
+    console.log('Data:', this.data);
+
+    this.isUpdateMode = !!(this.data?.zoneID && this.data.zoneID !== 0);
+    console.log('isUpdateMode:', this.isUpdateMode);
+
+    if (this.isUpdateMode) {
+      // ✅ Edit mode: patch form with data
+      this.zoneForm.patchValue({
+        zoneID: this.data.zoneID,
+        zoneName: this.data.zoneName,
+        cityID: this.data.cityID
+      });
+    } else {
+      // ✅ Add mode: load district list
+      this.api.getDistrictsByState(this.stateId).subscribe(res => {
+        this.districts = res;
+      });
+    }
+  }
+
+  onDistrictChange(): void {
+    this.zoneForm.get('cityID')?.setValue('');
+    this.cities = [];
+
+    if (this.selectedDistrict) {
+      this.api.getCitiesByDistrict(this.selectedDistrict).subscribe(res => {
+        this.cities = res;
+      });
+    }
   }
 
   onSubmit(): void {
@@ -42,14 +79,19 @@ export class ZonesFormComponent implements OnInit {
 
     this.api.UpdateZone(payload).subscribe({
       next: () => {
-        const isNew = payload.zoneId === 0;
+        const isNew = payload.zoneID === 0;
         const msg = isNew ? 'Zone added successfully' : 'Zone updated successfully';
         this.openAlertDialog('Success', msg, 'success');
-        this.zoneForm.reset({ zoneId: 0 });
-         this.router.navigate(['/home/core/zone-list']);
+
+        if (this.isPopup) {
+          this.dialogRef?.close('updated');
+        } else {
+          this.zoneForm.reset({ zoneID: 0 });
+          this.router.navigate(['/home/core/zone-list']);
+        }
       },
       error: () => {
-        const isNew = payload.zoneId === 0;
+        const isNew = payload.zoneID === 0;
         const msg = isNew ? 'Failed to add zone' : 'Failed to update zone';
         this.openAlertDialog('Error', msg, 'error');
       }
@@ -57,7 +99,11 @@ export class ZonesFormComponent implements OnInit {
   }
 
   onCancel(): void {
-    history.back();
+    if (this.isPopup) {
+      this.dialogRef?.close();
+    } else {
+      history.back();
+    }
   }
 
   openAlertDialog(title: string, message: string, type: string): void {

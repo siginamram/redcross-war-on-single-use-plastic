@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { CoreApiService } from '../../services/core-api.service';
+import { ZonesFormComponent } from '../zones-form/zones-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-zones-list',
@@ -12,15 +14,32 @@ import { CoreApiService } from '../../services/core-api.service';
 export class ZonesListComponent implements OnInit {
   displayedColumns: string[] = ['sno', 'zoneName', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
+  districts: any[] = [];
+ selectedDistrict: number = 0;
+  stateId: number = 1;
   cities: any[] = [];
   selectedCity: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private api: CoreApiService) {}
+  constructor(private api: CoreApiService
+              , private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.api.getCitiesByDistrict(1).subscribe(res => this.cities = res);
+     this.api.getDistrictsByState(this.stateId).subscribe(res => this.districts = res);
+  }
+
+  onDistrictChange(): void {
+    this.selectedCity = 0;
+    this.dataSource.data = [];
+    this.cities = [];
+
+    if (this.selectedDistrict) {
+      this.api.getCitiesByDistrict(this.selectedDistrict).subscribe(res => {
+        this.cities = res;
+      });
+    }
   }
 
   onCityChange(): void {
@@ -42,8 +61,17 @@ export class ZonesListComponent implements OnInit {
     return (pageIndex * pageSize) + index + 1;
   }
 
-  editZone(row: any): void {
-    console.log('Edit Zone:', row);
-    // Navigate to form or open dialog
-  }
+ editZone(row: any): void {
+  const dialogRef = this.dialog.open(ZonesFormComponent, {
+    width: '400px',
+    data: row, // send selected zone
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result === 'updated') {
+      this.onCityChange(); // reload updated list
+    }
+  });
+}
 }

@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { CoreApiService } from '../../services/core-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '../../../../shared/components/alert-dialog/alert-dialog.component';
+import { ClusterFormComponent } from '../cluster-form/cluster-form.component';
 
 @Component({
   selector: 'app-cluster-list',
@@ -13,11 +14,13 @@ import { AlertDialogComponent } from '../../../../shared/components/alert-dialog
   styleUrls: ['./cluster-list.component.scss']
 })
 export class ClusterListComponent implements OnInit {
-  displayedColumns: string[] = ['sno', 'clusterName', 'volunteer'];
+  displayedColumns: string[] = ['sno', 'clusterName', 'volunteer1','mobile1','volunteer2','mobile2', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  districts: any[] = [];
+ selectedDistrict: number = 0;
+  stateId: number = 1;
   cities: any[] = [];
   zones: any[] = [];
   clusters: any[] = [];
@@ -28,12 +31,19 @@ export class ClusterListComponent implements OnInit {
   constructor(private api: CoreApiService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.api.getCitiesByDistrict(1).subscribe({
-      next: (res) => this.cities = res || [],
-      error: () => this.cities = []
-    });
+    this.api.getDistrictsByState(this.stateId).subscribe(res => this.districts = res);
   }
+    onDistrictChange(): void {
+      this.selectedCityId = 0;
+      this.dataSource.data = [];
+      this.cities = [];
 
+      if (this.selectedDistrict) {
+        this.api.getCitiesByDistrict(this.selectedDistrict).subscribe(res => {
+          this.cities = res;
+        });
+      }
+    }
   onCityChange(cityId: number): void {
     this.selectedZoneId = 0;
     this.zones = [];
@@ -59,6 +69,21 @@ export class ClusterListComponent implements OnInit {
       }
     });
   }
+
+editCluster(cluster: any): void {
+  const dialogRef = this.dialog.open(ClusterFormComponent, {
+    width: '500px',
+    data: cluster,
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result === 'updated') {
+      this.onZoneChange(this.selectedZoneId);
+    }
+  });
+}
+
 
   openAlertDialog(title: string, message: string, type: string): void {
     this.dialog.open(AlertDialogComponent, {

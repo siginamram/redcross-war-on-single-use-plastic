@@ -10,6 +10,13 @@
   </div>
 
   <div class="filter-row">
+  <mat-form-field appearance="outline">
+  <mat-label>District</mat-label>
+  <mat-select [(value)]="selectedDistrict" (selectionChange)="onDistrictChange()">
+  <mat-option *ngFor="let district of districts" [value]="district.districtID">{{ district.districtName }}</mat-option>
+  </mat-select>
+  </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>City</mat-label>
       <mat-select [(value)]="selectedCity" (selectionChange)="onCityChange()">
@@ -55,6 +62,6 @@
      <div class="no-data" *ngIf="dataSource.data.length === 0">
       <mat-icon>info</mat-icon> No zones found.
     </div>
-    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator #paginator [pageSizeOptions]="[ 10, 20,30]" showFirstLastButtons></mat-paginator>
   </div>
 </mat-card>
