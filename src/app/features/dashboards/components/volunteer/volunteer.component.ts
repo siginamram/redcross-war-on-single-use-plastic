@@ -5,32 +5,17 @@ import { DashboardService } from '../../dashboard.service';
 Chart.register(...registerables);
 
 @Component({
-  selector: 'app-admin-dashboard',
+  selector: 'app-volunteer-dashboard',
   standalone: false,
-  templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.scss']
+  templateUrl: './volunteer.component.html',
+  styleUrls: ['./volunteer.component.scss']
 })
-export class AdminDashboardComponent implements OnInit {
+export class VolunteerComponent implements OnInit {
   @ViewChild('lineChartCanvas') lineChartCanvas!: ElementRef;
   @ViewChild('barChartCanvas') barChartCanvas!: ElementRef;
-  districtID: number = Number(localStorage.getItem('districtID'));
+
   fromDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   toDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
-  today = new Date();
-
-  districtId: number = 0;
-  cityId: number = 0;
-  zoneId: number = 0;
-
-  districts: any[] = [];
-  cities: any[] = [];
-  zones: any[] = [];
-
-  schoolDisplayedColumns = ['rank', 'school', 'collected'];
-  studentDisplayedColumns = ['rank', 'student', 'school', 'collected'];
-
-  schoolLeaderboard: any[] = [];
-  studentLeaderboard: any[] = [];
 
   totalWasteCollected = 0;
   activeSchools = 0;
@@ -38,70 +23,38 @@ export class AdminDashboardComponent implements OnInit {
   topPerformingZone = '-';
   topPerformingCity = '-';
 
+  schoolLeaderboard: any[] = [];
+  studentLeaderboard: any[] = [];
+
+  schoolDisplayedColumns = ['rank', 'school', 'collected'];
+  studentDisplayedColumns = ['rank', 'student', 'school', 'collected'];
+
   loading = false;
+  zoneID = Number(localStorage.getItem('zoneID'));
+  volunteerId = Number(localStorage.getItem('volunteerId'));
 
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.getDistricts();
-  this.districtId = this.districtID !== 0 ? this.districtID : 0;
-    if (this.districtID !== 0) {
-    this.onDistrictChange(); // Auto-trigger city load & fetch data
-  }
-  this.fetchDashboardData();
-  }
-
-  getDistricts() {
-    this.dashboardService.getDistrictsByState(1).subscribe((res: any[]) => {
-      this.districts = [{ districtID: 0, districtName: 'All' }, ...res];
-    });
-    
-  }
-
-  onDistrictChange() {
-    this.cityId = 0;
-    this.zoneId = 0;
-    this.cities = [];
-    this.zones = [];
-    if (this.districtId !== 0) {
-      this.dashboardService.getCitiesByDistrict(this.districtId).subscribe((res: any[]) => {
-        this.cities = [{ cityID: 0, cityName: 'All' }, ...res];
-      });
-    }
     this.fetchDashboardData();
   }
 
-  onCityChange() {
-    this.zoneId = 0;
-    this.zones = [];
-    if (this.cityId !== 0) {
-      this.dashboardService.getZones(this.cityId).subscribe((res: any[]) => {
-        this.zones = [{ zoneID: 0, zoneName: 'All' }, ...res];
-      });
-    }
+  onDateChange(): void {
     this.fetchDashboardData();
   }
 
-  onZoneChange() {
-    this.fetchDashboardData();
-  }
-  onDateChange() {
-  this.fetchDashboardData();
-}
-
-  fetchDashboardData() {
+  fetchDashboardData(): void {
     this.loading = true;
     const fdate = this.fromDate.toISOString().split('T')[0];
     const tdate = this.toDate.toISOString().split('T')[0];
 
-    this.dashboardService
-      .GetAdminDashboard(fdate, tdate, this.districtId, this.cityId, this.zoneId)
+    this.dashboardService.GetVolunteerDashboard(fdate, tdate, this.zoneID, this.volunteerId)
       .subscribe({
-        next: (res: any) => {
+        next: (res) => {
           this.totalWasteCollected = res.totalWasteCollectedKG || 0;
           this.activeSchools = res.activeSchools || 0;
           this.participatingStudents = res.participatingStudents || 0;
-          this.topPerformingZone = res.topPerformingZone || '-';
+          this.topPerformingZone = res.topPerformingSchool || '-';
           this.topPerformingCity = res.topPerformingCity || '-';
 
           this.schoolLeaderboard = (res.topSchools || []).map((s: any, i: number) => ({
@@ -122,17 +75,14 @@ export class AdminDashboardComponent implements OnInit {
             this.renderBarChart(this.schoolLeaderboard);
           }, 100);
         },
-        complete: () => {
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-        }
+        complete: () => this.loading = false,
+        error: () => this.loading = false
       });
   }
 
-  renderLineChart(data: any[]) {
+  renderLineChart(data: any[]): void {
     const ctx = this.lineChartCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
     new Chart(ctx, {
       type: 'line',
       data: {
@@ -154,8 +104,9 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  renderBarChart(data: any[]) {
+  renderBarChart(data: any[]): void {
     const ctx = this.barChartCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
     new Chart(ctx, {
       type: 'bar',
       data: {

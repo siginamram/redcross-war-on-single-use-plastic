@@ -34,46 +34,51 @@ export class ClusterFormComponent implements OnInit {
     this.isPopup = !!dialogRef;
   }
 
-ngOnInit(): void {
-  this.clusterForm = this.fb.group({
-    clusterId: [0],
-    clusterName: ['', Validators.required],
-    zoneID: ['', Validators.required],
-    volunteerID: ['', Validators.required],
-    volunteerID2: ['', Validators.required],
-    cityID: [''] // only for Add Mode
-  });
+  ngOnInit(): void {
+    this.clusterForm = this.fb.group({
+      clusterId: [0],
+      clusterName: ['', Validators.required],
+      zoneID: [null, Validators.required],           // make sure default is null not ''
+      volunteerID: ['', Validators.required],
+      volunteer2ID: ['', Validators.required],
+      cityID: ['']
+    });
 
-  this.api.getVolunteers().subscribe({
-    next: (res) => this.volunteers = res || [],
-    error: () => this.volunteers = []
-  });
+    // Load volunteers
+    this.api.getVolunteers().subscribe({
+      next: (res) => this.volunteers = res || [],
+      error: () => this.volunteers = []
+    });
 
-  if (this.data?.clusterId && this.data.clusterId !== 0) {
-  this.isUpdateMode = true;
+    // Update mode
+    if (this.data?.clusterId && this.data.clusterId !== 0) {
+      this.isUpdateMode = true;
+      const cityId = this.data.cityId || 1;
 
-  // 👇 Make sure to get cityId from some backup value
-  const cityId = this.data.cityId || 1; // fallback if needed
-
-  this.api.getZones(cityId).subscribe({
-    next: (res: any) => {
-      this.zones = res || [];
-      this.clusterForm.patchValue({
-        clusterId: this.data.clusterId,
-        clusterName: this.data.clusterName,
-        zoneID: this.data.zoneID,
-        volunteerID: this.data.volunteerId,
-        volunteerID2: this.data.volunteerId2,
+      this.api.getZones(cityId).subscribe({
+        next: (res: any) => {
+          this.zones = res || [];
+  
+          // Use timeout or zone patching to ensure dropdown is ready
+          setTimeout(() => {
+            this.clusterForm.patchValue({
+              clusterId: this.data.clusterId,
+              clusterName: this.data.clusterName,
+              zoneID: this.data.zoneId,
+              volunteerID: this.data.volunteerId,
+              volunteer2ID: this.data.volunteer2Id
+            });
+          }, 0);
+        }
+      });
+    } else {
+      // Add Mode: Load districts
+      this.api.getDistrictsByState(this.stateId).subscribe(res => {
+        this.districts = res;
       });
     }
-  });
-} else {
-    // ✅ ADD MODE
-    this.api.getDistrictsByState(this.stateId).subscribe(res => {
-      this.districts = res;
-    });
   }
-}
+
 
   onDistrictChange(): void {
     this.clusterForm.get('cityID')?.setValue('');
@@ -97,10 +102,12 @@ ngOnInit(): void {
   }
 
   onSubmit(): void {
+
+  console.log('Form Valid:', this.clusterForm.valid);
     if (this.clusterForm.invalid) return;
 
     const payload = this.clusterForm.value;
-
+    console.log('Payload:', payload);
     this.api.updateCluster(payload).subscribe({
       next: () => {
         this.openAlertDialog('Success', 'Cluster saved successfully.', 'success');

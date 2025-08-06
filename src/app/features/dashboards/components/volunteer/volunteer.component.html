@@ -1,90 +1,48 @@
 <div class="dashboard-wrapper" *ngIf="!loading; else loadingTemplate">
   <div class="dashboard-header">
-    <h2><mat-icon>dashboard</mat-icon> Admin Dashboard</h2>
+    <h2><mat-icon>dashboard</mat-icon> Volunteer Dashboard</h2>
 
     <div class="filter-section">
-    <mat-form-field appearance="outline">
-    <mat-label>District</mat-label>
-    <mat-select
-    [(ngModel)]="districtId"
-    (selectionChange)="onDistrictChange()"
-    [disabled]="districtID !== 0"
-    >
-    <mat-option *ngFor="let d of districts" [value]="d.districtID">
-      {{ d.districtName }}
-    </mat-option>
-    </mat-select>
-    </mat-form-field>
-
       <mat-form-field appearance="outline">
-        <mat-label>City</mat-label>
-        <mat-select [(ngModel)]="cityId" (selectionChange)="onCityChange()">
-          <mat-option *ngFor="let c of cities" [value]="c.cityID">{{ c.cityName }}</mat-option>
-        </mat-select>
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" (dateChange)="onDateChange()" />
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Zone</mat-label>
-        <mat-select [(ngModel)]="zoneId" (selectionChange)="onZoneChange()">
-          <mat-option *ngFor="let z of zones" [value]="z.zoneID">{{ z.zoneName }}</mat-option>
-        </mat-select>
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" (dateChange)="onDateChange()" />
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
-
-      <mat-form-field appearance="outline">
-      <mat-label>From Date</mat-label>
-      <input
-      matInput
-      [matDatepicker]="picker1"
-      [(ngModel)]="fromDate"
-      (dateChange)="onDateChange()"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-      <mat-label>To Date</mat-label>
-      <input
-      matInput
-      [matDatepicker]="picker2"
-      [(ngModel)]="toDate"
-      (dateChange)="onDateChange()"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-      </mat-form-field>
-
-
-      <!-- <button mat-raised-button color="primary" (click)="fetchDashboardData()">
-        <mat-icon>filter_alt</mat-icon> Apply Filter
-      </button> -->
     </div>
   </div>
 
-<div class="dashboard-cards">
+ <div class="dashboard-cards">
   <div class="card">
     <mat-icon class="card-icon">delete</mat-icon>
     <div class="label">Total Waste Collected</div>
     <div class="value">{{ totalWasteCollected }} kg</div>
   </div>
-
+  
   <div class="card">
     <mat-icon class="card-icon">school</mat-icon>
     <div class="label">Active Schools</div>
     <div class="value">{{ activeSchools }}</div>
   </div>
-
+  
   <div class="card">
     <mat-icon class="card-icon">groups</mat-icon>
     <div class="label">Participating Students</div>
     <div class="value">{{ participatingStudents }}</div>
   </div>
-
+  
   <div class="card">
     <mat-icon class="card-icon">emoji_events</mat-icon>
-    <div class="label">Top Performing Zone</div>
-    <div class="value">{{ topPerformingZone }}</div>
-    <div class="subtext">{{ topPerformingCity }}</div>
+    <div class="label">Top Performing School</div>
+    <div class="subtext">{{ topPerformingZone }}</div>
+    <!-- <div class="subtext">{{ topPerformingCity }}</div> -->
   </div>
 </div>
 

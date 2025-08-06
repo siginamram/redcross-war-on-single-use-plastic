@@ -1,4 +1,4 @@
-<div class="dashboard-container">
+<div class="dashboard-container"  *ngIf="!loading; else loadingTemplate">
     <h2>
     <mat-icon class="dashboard-icon">dashboard</mat-icon>
     School Dashboard
@@ -147,3 +147,9 @@
     </table>
   </div>
 </div>
+<ng-template #loadingTemplate>
+  <div class="loading-spinner">
+    <mat-spinner></mat-spinner>
+    <p>Loading Dashboard...</p>
+  </div>
+</ng-template>

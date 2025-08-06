@@ -32,6 +32,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker'; 
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ZoneDashboardComponent } from './components/zone-dashboard/zone-dashboard.component';
+import { VolunteerComponent } from './components/volunteer/volunteer.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { ZoneDashboardComponent } from './components/zone-dashboard/zone-dashboa
     SchoolDashboardComponent,
     AdminDashboardComponent,
     ZoneDashboardComponent,
+    VolunteerComponent,
   ],
   imports: [
     CommonModule,

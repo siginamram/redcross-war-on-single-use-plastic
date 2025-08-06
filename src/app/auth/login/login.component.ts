@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('cityID',JSON.stringify(response.cityID));
         localStorage.setItem('zoneID',JSON.stringify(response.zoneID));
         localStorage.setItem('clusterId',JSON.stringify(response.clusterId));
+        localStorage.setItem('volunteerId', JSON.stringify(response.volunteerId));
 
               // Navigate based on the role
           this.navigateBasedOnRole(response.roleID);
@@ -81,7 +82,7 @@ export class LoginComponent implements OnInit {
     const routes: { [key: number]: string } = {
       1: '/home/dashboards/admin-dashboard',
       2: '/home/dashboards/school-dashboard',
-      3: '/home/dashboards/guest-dashboard',
+      3: '/home/dashboards/volunteer-dashboard',
    
     };
 

@@ -11,7 +11,7 @@ export class SchoolDashboardComponent implements OnInit {
   fromDate: Date;
   toDate: Date;
   today = new Date();
-
+ loading = false;
   schoolId: number = Number(localStorage.getItem('schoolID'));
   stats: any[] = [];
   overall: any[] = [];
@@ -36,11 +36,13 @@ export class SchoolDashboardComponent implements OnInit {
   }
 
   getDashboardData(): void {
+      this.loading = true;
     const fdate = this.fromDate.toISOString().split('T')[0];
     const tdate = this.toDate.toISOString().split('T')[0];
 
     this.api.GetSchoolDashboard(fdate, tdate, this.schoolId).subscribe({
       next: (res) => {
+          this.loading = false;
         this.stats = [
           { title: 'Total Students', value: res.totalStudents, icon: 'groups' },
           { title: 'Participated', value: res.participatingStudents, icon: 'check_circle' },
@@ -70,6 +72,7 @@ export class SchoolDashboardComponent implements OnInit {
         }));
       },
       error: (err) => {
+          this.loading = false;
         console.error('Error fetching dashboard data:', err);
       }
     });

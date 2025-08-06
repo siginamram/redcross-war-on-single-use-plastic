@@ -68,31 +68,26 @@
     margin-bottom: 32px;
 
     .card {
-     background-color: #ffffff;
+      background-color: #ffffff;
       border-left: 5px solid #2e7d32;
       padding: 16px;
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
        position: relative;
-       padding-left: 50px;
+  padding-left: 50px;
 
       .label {
        font-size: 14px;
        color: #4caf50;
        font-weight: 600;
       }
-      .card-icon {
-        position: absolute;
-        left: 15px;
-        top: 15px;
-        font-size: 24px;
-        color: #2e7d32;
-      }
+
       .value {
      font-size: 24px;
       font-weight: bold;
        color: #4caf50;
       }
+
 
       .subtext {
         font-size: 12px;
@@ -101,6 +96,14 @@
     }
   }
 
+
+.card-icon {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  font-size: 24px;
+  color: #2e7d32;
+}
   .charts-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
