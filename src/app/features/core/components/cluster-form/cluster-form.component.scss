@@ -5,7 +5,7 @@
 
   mat-card {
     width: 100%;
-    max-width: 720px;
+    max-width: 520px;
     padding: 24px;
     border-radius: 10px;
     background: #f1f8e9;
@@ -25,9 +25,7 @@
       flex-wrap: wrap;
       gap: 20px;
 
-      mat-form-field {
-        flex: 1 1 280px;
-      }
+    
     }
 
     .form-actions {

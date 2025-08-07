@@ -162,4 +162,8 @@ GetRewardTransaction(StudentId: number): Observable<any> {
   return this.http.get(`${this.baseApiUrl}/api/School/GetRewardTransaction/${StudentId}`);
 }
 
+GetRoles(): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/MasterData/GetRoles`);
+}
+
 }

@@ -1,1 +1,75 @@
-<p>user-add works!</p>
+<div class="user-form-container">
+  <mat-card>
+    <h2><mat-icon class="header-icon">group</mat-icon> User Creation</h2>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Full Name -->
+        <mat-form-field appearance="outline">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" />
+        </mat-form-field>
+
+        <!-- Username -->
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="passwordHash" />
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <!-- Phone -->
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone" />
+        </mat-form-field>
+
+        <!-- Role -->
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="roleID" (selectionChange)="onRoleChange($event.value)">
+            <mat-option *ngFor="let role of roles" [value]="role.roleID">{{ role.roleName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- District -->
+        <mat-form-field appearance="outline" *ngIf="showDistrict">
+          <mat-label>District</mat-label>
+          <mat-select formControlName="districtID" (selectionChange)="onDistrictChange($event.value)">
+            <mat-option *ngFor="let dist of districts" [value]="dist.districtID">{{ dist.districtName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- City -->
+        <mat-form-field appearance="outline" *ngIf="showCity">
+          <mat-label>City</mat-label>
+          <mat-select formControlName="cityID" (selectionChange)="onCityChange($event.value)">
+            <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Zone -->
+        <mat-form-field appearance="outline" *ngIf="showZone">
+          <mat-label>Zone</mat-label>
+          <mat-select formControlName="zoneID">
+            <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-flat-button color="primary"  style="background-color:#2e7d32; color:white;" type="submit">Submit</button>
+        <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Cancel</button>
+      </div>
+    </form>
+  </mat-card>
+</div>
