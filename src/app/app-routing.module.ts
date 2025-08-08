@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+  {path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   {path: 'auth',loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
 
   { 
@@ -12,7 +12,7 @@ const routes: Routes = [
     [
       { path: 'core', loadChildren: () => import('./features/core/core.module').then(m => m.CoreModule) },
       { path: 'dashboards', loadChildren: () => import('./features/dashboards/dashboards.module').then(m => m.DashboardsModule) },
-   ]
+    ]
   },
     { path: '**', redirectTo: 'auth/login' }
 ];

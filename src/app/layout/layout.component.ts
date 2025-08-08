@@ -56,6 +56,11 @@ export class LayoutComponent implements OnInit {
         { title: 'Dashboard', icon: 'home', route: '/home/dashboards/volunteer-dashboard' },
       ];  
     }
+    else if (roleID === 4 || roleID === 5 || roleID === 6) {
+      this.menuItems = [
+        { title: 'Dashboard', icon: 'home', route: '/home/dashboards/admin-dashboard' },
+      ];
+    }
      else {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboards/guest-dashboard' },

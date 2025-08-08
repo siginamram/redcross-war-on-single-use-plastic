@@ -14,8 +14,10 @@ import { MatDialog } from '@angular/material/dialog';
 export class ZonesListComponent implements OnInit {
   displayedColumns: string[] = ['sno', 'zoneName', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
+  districtID: number = Number(localStorage.getItem('districtID'));
+  districtId: number = 0;
   districts: any[] = [];
- selectedDistrict: number = 0;
+  selectedDistrict: number = 0;
   stateId: number = 1;
   cities: any[] = [];
   selectedCity: number = 0;
@@ -27,17 +29,24 @@ export class ZonesListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-     this.api.getDistrictsByState(this.stateId).subscribe(res => this.districts = res);
+    this.getDistricts();
+    this.districtId = this.districtID !== 0 ? this.districtID : 0;
+    if (this.districtID !== 0) {
+    this.onDistrictChange(); // Auto-trigger city load & fetch data
+   }
+  }
+   getDistricts() {
+    this.api.getDistrictsByState(this.stateId).subscribe((res: any[]) => {
+      this.districts = [{ districtID: 0, districtName: 'Select' }, ...res];
+    });
   }
 
-  onDistrictChange(): void {
+  onDistrictChange() {
     this.selectedCity = 0;
-    this.dataSource.data = [];
     this.cities = [];
-
-    if (this.selectedDistrict) {
-      this.api.getCitiesByDistrict(this.selectedDistrict).subscribe(res => {
-        this.cities = res;
+    if (this.districtId !== 0) {
+      this.api.getCitiesByDistrict(this.districtId).subscribe((res: any[]) => {
+        this.cities = [ ...res];
       });
     }
   }

@@ -18,8 +18,10 @@ export class ClusterListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  districtID: number = Number(localStorage.getItem('districtID'));
+  districtId: number = 0;
   districts: any[] = [];
- selectedDistrict: number = 0;
+  selectedDistrict: number = 0;
   stateId: number = 1;
   cities: any[] = [];
   zones: any[] = [];
@@ -31,19 +33,29 @@ export class ClusterListComponent implements OnInit {
   constructor(private api: CoreApiService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.api.getDistrictsByState(this.stateId).subscribe(res => this.districts = res);
+       this.getDistricts();
+  this.districtId = this.districtID !== 0 ? this.districtID : 0;
+    if (this.districtID !== 0) {
+    this.onDistrictChange(); // Auto-trigger city load & fetch data
+   }
   }
-    onDistrictChange(): void {
-      this.selectedCityId = 0;
-      this.dataSource.data = [];
-      this.cities = [];
-
-      if (this.selectedDistrict) {
-        this.api.getCitiesByDistrict(this.selectedDistrict).subscribe(res => {
-          this.cities = res;
-        });
-      }
+    getDistricts() {
+    this.api.getDistrictsByState(this.stateId).subscribe((res: any[]) => {
+      this.districts = [{ districtID: 0, districtName: 'Select' }, ...res];
+    });
+  }
+    
+     onDistrictChange() {
+    this.selectedCityId = 0;
+    this.selectedZoneId = 0;
+    this.cities = [];
+    this.zones = [];
+    if (this.districtId !== 0) {
+      this.api.getCitiesByDistrict(this.districtId).subscribe((res: any[]) => {
+        this.cities = [ ...res];
+      });
     }
+  }
   onCityChange(cityId: number): void {
     this.selectedZoneId = 0;
     this.zones = [];
@@ -51,7 +63,7 @@ export class ClusterListComponent implements OnInit {
     this.dataSource.data = [];
 
     this.api.getZones(cityId).subscribe({
-      next: (res) => this.zones = res || [],
+      next: (res) => this.zones =res || [],
       error: () => this.zones = []
     });
   }

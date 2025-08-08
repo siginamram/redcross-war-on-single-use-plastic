@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoreApiService } from '../../services/core-api.service';
 import { Router } from '@angular/router';
+import { AlertDialogComponent } from '../../../../shared/components/alert-dialog/alert-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-add',
@@ -28,7 +30,8 @@ export class UserAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private api: CoreApiService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -98,28 +101,49 @@ export class UserAddComponent implements OnInit {
     });
   }
 
-  // Submit form
 onSubmit(): void {
   if (this.userForm.invalid) {
     console.warn('Form is invalid:', this.userForm.value);
     return;
   }
 
-  const payload = this.userForm.value;
-  console.log('Submitting user:', payload);
+  // Replace undefined/null/empty values with 0
+  const rawPayload = this.userForm.value;
+  const payload: any = {};
+
+  for (const key in rawPayload) {
+    if (
+      rawPayload[key] === undefined ||
+      rawPayload[key] === 0 ||
+      rawPayload[key] === ''
+    ) {
+      payload[key] = null;
+    } else {
+      payload[key] = rawPayload[key];
+    }
+  }
+
+  console.log('Transformed Payload:', payload);
 
   this.api.UpdateUser(payload).subscribe({
-    next: (res) => {
-      alert('User updated successfully');
+    next: () => {
+      this.openAlertDialog('Success', 'User saved successfully.', 'success');
       this.router.navigate(['/home/core/user-list']);
     },
     error: (err) => {
       console.error('Failed to update user:', err);
-      alert('Failed to update user. Please try again.');
+      this.openAlertDialog('Error', 'Failed to save User. Please try again.', 'error');
     }
   });
 }
 
+
+  openAlertDialog(title: string, message: string, type: string): void {
+    this.dialog.open(AlertDialogComponent, {
+      width: '400px',
+      data: { title, message, type },
+    });
+  }
 
   // Cancel button handler
   onCancel(): void {

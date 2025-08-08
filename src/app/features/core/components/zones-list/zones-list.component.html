@@ -10,12 +10,18 @@
   </div>
 
   <div class="filter-row">
-  <mat-form-field appearance="outline">
-  <mat-label>District</mat-label>
-  <mat-select [(value)]="selectedDistrict" (selectionChange)="onDistrictChange()">
-  <mat-option *ngFor="let district of districts" [value]="district.districtID">{{ district.districtName }}</mat-option>
-  </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>District</mat-label>
+      <mat-select
+      [(ngModel)]="districtId"
+      (selectionChange)="onDistrictChange()"
+      [disabled]="districtID !== 0"
+      >
+      <mat-option *ngFor="let d of districts" [value]="d.districtID">
+        {{ d.districtName }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>City</mat-label>

@@ -68,8 +68,8 @@ getSchoolsByVolunteer(VolunteerId: number): Observable<any> {
   return this.http.get(`${this.baseApiUrl}/api/School/GetSchoolsByVolunteer/${VolunteerId}`);
 }
 
-getSchoolsByZone(ZoneId: number): Observable<any> {
-  return this.http.get(`${this.baseApiUrl}/api/School/GetSchoolsByZone/${ZoneId}`);
+getSchoolsByZone(stateId:number,districtId:number,cityId: number,ZoneId: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/School/GetSchoolsByZone/${stateId}/${districtId}/${cityId}/${ZoneId}`);
 }
 
 getStudentsBySchool(SchoolId: number,ClassId :number,SectionId:number): Observable<any> {
@@ -85,8 +85,8 @@ getStudentsBySection(SectionId: number): Observable<any> {
 }
 
   
-  GetUsersByCity(cityId: number,ZoneId: number,ClusterId: number,): Observable<any> {
-   return this.http.get(`${this.baseApiUrl}/api/User/GetUsersByCity/${cityId}/${ZoneId}/${ClusterId}`);
+  GetUsersByCity(stateId:number,districtId:number,cityId: number,ZoneId: number,ClusterId: number,): Observable<any> {
+   return this.http.get(`${this.baseApiUrl}/api/User/GetUsersByCity/${stateId}/${districtId}/${cityId}/${ZoneId}/${ClusterId}`);
   }
 
   UpdateUser(payload: any): Observable<any> {

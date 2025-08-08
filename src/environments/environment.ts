@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-    baseApiUrl: 'https://www.fuzioniq.org:80'
+   // baseApiUrl: 'https://www.fuzioniq.org:80'
   // baseApiUrl: 'http://103.191.208.97'  // Storing the base url of swagger, from where the swagger generate value 
-   //baseApiUrl: 'https://localhost:44328'
+   baseApiUrl: 'https://localhost:44328'
 };
 
 //https://localhost:44328/swagger/index.html

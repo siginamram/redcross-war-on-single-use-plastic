@@ -13,7 +13,10 @@ import { ViewChild, AfterViewInit } from '@angular/core';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  districtId = 1; // Set default or fetch dynamically
+  districtID: number = Number(localStorage.getItem('districtID'));
+  districtId: number = 0;
+  stateId: number = 1; // Assuming state ID is fixed for this example
+  districts: any[] = [];
   cityList: any[] = [];
   zoneList: any[] = [];
   clusterList: any[] = [];
@@ -30,17 +33,33 @@ export class UserListComponent implements OnInit {
   constructor(private api: CoreApiService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.loadCities();
+     this.getDistricts();
+  this.districtId = this.districtID !== 0 ? this.districtID : 0;
+    if (this.districtID !== 0) {
+    this.onDistrictChange(); // Auto-trigger city load & fetch data
+  }
     this.getUserData(); // Load all users by default
   }
 
     ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-  loadCities() {
-    this.api.getCitiesByDistrict(1).subscribe((res: any[]) => {
-      this.cityList = res;
+  getDistricts() {
+    this.api.getDistrictsByState(this.stateId).subscribe((res: any[]) => {
+      this.districts = [{ districtID: 0, districtName: 'All' }, ...res];
     });
+    
+  }
+    onDistrictChange() {
+    this.selectedCity = 0;
+    this.selectedZone = 0;
+    this.cityList = [];
+    this.zoneList = [];
+    if (this.districtId !== 0) {
+      this.api.getCitiesByDistrict(this.districtId).subscribe((res: any[]) => {
+        this.cityList = [ ...res];
+      });
+    }
   }
 
   onCityChange() {
@@ -76,7 +95,7 @@ export class UserListComponent implements OnInit {
   }
 
   getUserData() {
-    this.api.GetUsersByCity(this.selectedCity, this.selectedZone, this.selectedCluster).subscribe(res => {
+    this.api.GetUsersByCity(this.stateId,this.districtID,this.selectedCity, this.selectedZone, this.selectedCluster).subscribe(res => {
        this.dataSource.data = res || [];
     });
   }

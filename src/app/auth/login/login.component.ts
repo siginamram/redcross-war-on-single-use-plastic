@@ -83,6 +83,9 @@ export class LoginComponent implements OnInit {
       1: '/home/dashboards/admin-dashboard',
       2: '/home/dashboards/school-dashboard',
       3: '/home/dashboards/volunteer-dashboard',
+      4: '/home/dashboards/admin-dashboard',
+      5: '/home/dashboards/admin-dashboard', 
+      6: '/home/dashboards/admin-dashboard',
    
     };
 

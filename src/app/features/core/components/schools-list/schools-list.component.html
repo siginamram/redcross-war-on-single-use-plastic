@@ -13,31 +13,38 @@
     </button>
   </div>
 
-  <!-- Filters -->
-  <div class="filter-row">
-    <mat-form-field appearance="outline">
-      <mat-label>City</mat-label>
-      <mat-select [(value)]="selectedCityId" (selectionChange)="onCityChange($event.value)">
-        <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<!-- Filters -->
+<div class="filter-row">
 
-    <mat-form-field appearance="outline">
-      <mat-label>Zone</mat-label>
-      <mat-select [(value)]="selectedZoneId" (selectionChange)="onZoneChange($event.value)">
-        <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <!-- District Filter -->
+  <mat-form-field appearance="outline">
+    <mat-label>District</mat-label>
+   <mat-select [(ngModel)]="selectedDistrictId" (selectionChange)="onDistrictChange()" [disabled]="disableDistrict">
+      <mat-option [value]="0">All</mat-option>
+      <mat-option *ngFor="let district of districts" [value]="district.districtID">{{ district.districtName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Cluster</mat-label>
-      <mat-select [(ngModel)]="selectedClusterId" name="cluster" (ngModelChange)="onClusterChange($event)">
-        <mat-option *ngFor="let cluster of clusters" [value]="cluster.clusterId">
-          {{ cluster.clusterName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+  <!-- City Filter -->
+  <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+   <mat-select [(ngModel)]="selectedCityId" (selectionChange)="onCityChange($event.value)" [disabled]="disableCity">
+      <mat-option [value]="0">All</mat-option>
+      <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.cityName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Zone Filter -->
+  <mat-form-field appearance="outline">
+    <mat-label>Zone</mat-label>
+    <mat-select [(ngModel)]="selectedZoneId" (selectionChange)="onZoneChange()" [disabled]="disableZone">
+      <mat-option [value]="0">All</mat-option>
+      <mat-option *ngFor="let zone of zones" [value]="zone.zoneID">{{ zone.zoneName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
+
 
   <!-- Table -->
   <div class="table-container">
@@ -111,6 +118,8 @@
     </div>
 
     <!-- Paginator -->
-    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+   <div class="paginator-wrapper">
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
   </div>
 </div>
